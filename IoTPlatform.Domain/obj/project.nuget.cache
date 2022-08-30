@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "II8dXoo4s3B1Ad+dqbR9mx3L8LtDxygJM6InW6uMO5RTqufPNIlU6nBuCs1oJ23lX/Sacyb6pDaJQ06fgoDYlw==",
+  "success": true,
+  "projectFilePath": "D:\\Code Beginner\\DotNet Core\\IoTPlatform\\IoTPlatform\\IoTPlatform.Domain\\IoTPlatform.Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\nvtai\\.nuget\\packages\\mongodb.bson\\2.17.1\\mongodb.bson.2.17.1.nupkg.sha512",
+    "C:\\Users\\nvtai\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
