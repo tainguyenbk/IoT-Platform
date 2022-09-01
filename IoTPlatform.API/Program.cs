@@ -29,13 +29,17 @@ namespace IoTPlatform
             // Base
             builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(MongoRepository<>));
 
-            // Devvice 
+            // Device 
             builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
             builder.Services.AddScoped<IDeviceService, DeviceService>();
 
-            // Devvice Profile
+            // Device Profile
             builder.Services.AddScoped<IDeviceProfileRepository, DeviceProfileRepository>();
             builder.Services.AddScoped<IDeviceProfileService, DeviceProfileService>();
+
+            // Customer
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+            builder.Services.AddScoped<ICustomerService, CustomerService>();
 
             var app = builder.Build();
 
