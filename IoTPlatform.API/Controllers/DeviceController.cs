@@ -94,7 +94,7 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{customer}")]
         public async Task<ActionResult> FindDeviceByCustomer(string customer)
         {
-            var result = await _deviceService.FindDeviceByIdAsync(customer);
+            var result = await _deviceService.FindDeviceByCustomerAsync(customer);
             if (result == null)
             {
                 return NotFound();
