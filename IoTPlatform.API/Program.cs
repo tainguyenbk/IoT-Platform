@@ -33,6 +33,10 @@ namespace IoTPlatform
             builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
             builder.Services.AddScoped<IDeviceService, DeviceService>();
 
+            // Devvice Profile
+            builder.Services.AddScoped<IDeviceProfileRepository, DeviceProfileRepository>();
+            builder.Services.AddScoped<IDeviceProfileService, DeviceProfileService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

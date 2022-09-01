@@ -1,4 +1,5 @@
 ﻿using IoTPlatform.Domain.Models;
+using IoTPlatform.Infrastructure.Repositories;
 using IoTPlatform.Infrastructure.Repositories.Interfaces;
 using IoTPlatform.Infrastructure.Services.Interfaces;
 using System;
