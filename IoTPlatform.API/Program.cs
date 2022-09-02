@@ -41,6 +41,10 @@ namespace IoTPlatform
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<ICustomerService, CustomerService>();
 
+            // RuleChain
+            builder.Services.AddScoped<IRuleChainRepository, RuleChainRepository>();
+            builder.Services.AddScoped<IRuleChainService, RuleChainService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
