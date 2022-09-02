@@ -57,5 +57,12 @@ namespace IoTPlatform.API.Controllers
             var result = await _deviceProfileService.RemoveDeviceProfileAsync(id);
             return new JsonResult(new { result });
         }
+
+        [HttpGet("{name}")]
+        public async Task<ActionResult> FindDeviceProfileByName(string name)
+        {
+            var result = await _deviceProfileService.FindDeviceProfileByNameAsync(name);
+            return new JsonResult(new { result });
+        }
     }
 }
