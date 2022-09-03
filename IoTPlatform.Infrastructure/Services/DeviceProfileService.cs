@@ -47,5 +47,10 @@ namespace IoTPlatform.Infrastructure.Services
         {
             return _deviceProfileRepository.Update(id, deviceProfile);
         }
+
+        public Task<DeviceProfile> UploadImageAsync(string id, List<DeviceProfileImage> deviceProfileImage)
+        {
+            return _deviceProfileRepository.UploadImage(id, deviceProfileImage);
+        }
     }
 }

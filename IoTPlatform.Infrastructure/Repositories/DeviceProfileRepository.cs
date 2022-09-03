@@ -24,5 +24,31 @@ namespace IoTPlatform.Infrastructure.Repositories
             var res = await DbSet.Find(filter).ToListAsync();
             return res;
         }
+
+        public async Task<DeviceProfile> UploadImage(string id, List<DeviceProfileImage> deviceProfileImage)
+        {
+            var filter = Builders<DeviceProfile>.Filter.Eq("DeviceProfileID", id);
+            var deviceProfile = await DbSet.Find(filter).FirstOrDefaultAsync();
+
+            if (deviceProfile == null)
+            {
+                return null;
+            }
+
+            if (deviceProfile.Images == null)
+            {
+                deviceProfile.Images = deviceProfileImage;
+            }
+            else
+            {
+                foreach (var image in deviceProfileImage)
+                {
+                    deviceProfile.Images.Add(image);
+                }
+            }
+
+            await DbSet.FindOneAndReplaceAsync(filter, deviceProfile);
+            return deviceProfile;
+        }
     }
 }

@@ -1,11 +1,71 @@
 {
   "Version": 1,
-  "Hash": "t9FpB3YlgPBDP/XvYqd8G7vWouoPpKSmpFQlXnoJErs=",
+  "Hash": "45ov5Ip85DZwWkwjCuWYh4PU8s4bQfCA8+mE26MsrkY=",
   "Source": "IoTPlatform.API",
   "BasePath": "_content/IoTPlatform.API",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "IoTPlatform.API\\wwwroot",
+      "Source": "IoTPlatform.API",
+      "ContentRoot": "D:\\Code Beginner\\DotNet Core\\IoTPlatform\\IoTPlatform\\IoTPlatform.API\\wwwroot\\",
+      "BasePath": "_content/IoTPlatform.API",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "D:\\Code Beginner\\DotNet Core\\IoTPlatform\\IoTPlatform\\IoTPlatform.API\\wwwroot\\Images\\3051885-40.jpg",
+      "SourceId": "IoTPlatform.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Code Beginner\\DotNet Core\\IoTPlatform\\IoTPlatform\\IoTPlatform.API\\wwwroot\\",
+      "BasePath": "_content/IoTPlatform.API",
+      "RelativePath": "Images/3051885-40.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\3051885-40.jpg"
+    },
+    {
+      "Identity": "D:\\Code Beginner\\DotNet Core\\IoTPlatform\\IoTPlatform\\IoTPlatform.API\\wwwroot\\Images\\PLC-là-gì-Ưu-nhược-điểm-của-PLC.jpg",
+      "SourceId": "IoTPlatform.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Code Beginner\\DotNet Core\\IoTPlatform\\IoTPlatform\\IoTPlatform.API\\wwwroot\\",
+      "BasePath": "_content/IoTPlatform.API",
+      "RelativePath": "Images/PLC-là-gì-Ưu-nhược-điểm-của-PLC.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\PLC-là-gì-Ưu-nhược-điểm-của-PLC.jpg"
+    },
+    {
+      "Identity": "D:\\Code Beginner\\DotNet Core\\IoTPlatform\\IoTPlatform\\IoTPlatform.API\\wwwroot\\Images\\wallpaper-4k-hinh-nen-4k-nhung-chiec-thuyen-nho-ven-bien-dep_100012996 (1).jpg",
+      "SourceId": "IoTPlatform.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Code Beginner\\DotNet Core\\IoTPlatform\\IoTPlatform\\IoTPlatform.API\\wwwroot\\",
+      "BasePath": "_content/IoTPlatform.API",
+      "RelativePath": "Images/wallpaper-4k-hinh-nen-4k-nhung-chiec-thuyen-nho-ven-bien-dep_100012996 (1).jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\wallpaper-4k-hinh-nen-4k-nhung-chiec-thuyen-nho-ven-bien-dep_100012996 (1).jpg"
+    }
+  ]
 }

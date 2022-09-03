@@ -9,10 +9,13 @@ namespace IoTPlatform.API.Controllers
     public class DeviceProfileController : ControllerBase
     {
         private readonly IDeviceProfileService _deviceProfileService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public DeviceProfileController(IDeviceProfileService deviceProfileService)
+        public DeviceProfileController(IDeviceProfileService deviceProfileService, IWebHostEnvironment webHostEnvironment)
         {
             _deviceProfileService = deviceProfileService;
+            _webHostEnvironment = webHostEnvironment;
+
         }
 
         [HttpPost]
@@ -62,6 +65,45 @@ namespace IoTPlatform.API.Controllers
         public async Task<ActionResult> FindDeviceProfileByName(string name)
         {
             var result = await _deviceProfileService.FindDeviceProfileByNameAsync(name);
+            return new JsonResult(new { result });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UploadDeviceProfileImage(string id, List<IFormFile> files)
+        {
+            List<DeviceProfileImage> images = new List<DeviceProfileImage>();
+            foreach (var file in files)
+            {
+                if (file != null)
+                {
+                    try
+                    {
+                        if (!Directory.Exists(_webHostEnvironment.WebRootPath + "\\Images\\"))
+                        {
+                            Directory.CreateDirectory(_webHostEnvironment.WebRootPath + "\\Images\\");
+                        }
+
+                        using (FileStream fileStream = System.IO.File.Create(_webHostEnvironment.WebRootPath + "\\Images\\" + file.FileName))
+                        {
+                            file.CopyTo(fileStream);
+                            fileStream.Flush();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return new JsonResult(new { V = ex.ToString()});
+                    }
+
+                    var path = @"Images\" + file.FileName;
+                    var image = new DeviceProfileImage()
+                    {
+                        DeviceProfileID = id,
+                        Path = path
+                    };
+                    images.Add(image);
+                }
+            }
+            var result = await _deviceProfileService.UploadImageAsync(id, images);
             return new JsonResult(new { result });
         }
     }
