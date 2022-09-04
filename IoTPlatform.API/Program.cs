@@ -53,6 +53,10 @@ namespace IoTPlatform
             builder.Services.AddScoped<IClientAttributeRepository, ClientAttributeRepository>();
             builder.Services.AddScoped<IClientAttributeService, ClientAttributeService>();
 
+            // Shared Attribute
+            builder.Services.AddScoped<ISharedAttributeRepository, SharedAttributeRepository>();
+            builder.Services.AddScoped<ISharedAttributeService, SharedAttributeService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
