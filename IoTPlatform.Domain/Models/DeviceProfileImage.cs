@@ -12,9 +12,6 @@ namespace IoTPlatform.Domain.Models
 {
     public class DeviceProfileImage
     {
-        //[BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
-        //[BsonRepresentation(BsonType.ObjectId)]
-        public string? DeviceProfileID { get; set; }
-        public string? Path { get; set; }
+        public string? FilePath { get; set; }
     }
 }

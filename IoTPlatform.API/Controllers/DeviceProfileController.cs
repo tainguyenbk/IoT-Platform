@@ -72,21 +72,22 @@ namespace IoTPlatform.API.Controllers
         public async Task<ActionResult> UploadDeviceProfileImage(string id, List<IFormFile> files)
         {
             List<DeviceProfileImage> images = new List<DeviceProfileImage>();
-            foreach (var file in files)
+            string fileFolder = @"Files\Images\";
+
+            foreach (var formFile in files)
             {
-                if (file != null)
+                if (formFile.Length > 0)
                 {
                     try
                     {
-                        if (!Directory.Exists(_webHostEnvironment.WebRootPath + "\\Images\\"))
+                        if (!Directory.Exists(fileFolder))
                         {
-                            Directory.CreateDirectory(_webHostEnvironment.WebRootPath + "\\Images\\");
+                            Directory.CreateDirectory(fileFolder);
                         }
 
-                        using (FileStream fileStream = System.IO.File.Create(_webHostEnvironment.WebRootPath + "\\Images\\" + file.FileName))
+                        using (FileStream fileStream = System.IO.File.Create(fileFolder + formFile.FileName))
                         {
-                            file.CopyTo(fileStream);
-                            fileStream.Flush();
+                            await formFile.CopyToAsync(fileStream);
                         }
                     }
                     catch (Exception ex)
@@ -94,11 +95,10 @@ namespace IoTPlatform.API.Controllers
                         return new JsonResult(new { V = ex.ToString()});
                     }
 
-                    var path = @"Images\" + file.FileName;
+                    var filePath = fileFolder + formFile.FileName;
                     var image = new DeviceProfileImage()
                     {
-                        DeviceProfileID = id,
-                        Path = path
+                        FilePath = filePath
                     };
                     images.Add(image);
                 }
