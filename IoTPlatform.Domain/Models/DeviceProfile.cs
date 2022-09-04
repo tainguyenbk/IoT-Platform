@@ -19,7 +19,7 @@ namespace IoTPlatform.Domain.Models
         public DateTime CreatedTime { get; set; }   
         public string? DeviceProfileName { get; set; }
         public string RuleChain { get; set; }
-        public string ImageUrl { get; set; }
+        public List<DeviceProfileImage> Images { get; set; } = new List<DeviceProfileImage>();
         public string Description { get; set; }
         public string TransportType { get; set; }
         public bool Default { get; set; }

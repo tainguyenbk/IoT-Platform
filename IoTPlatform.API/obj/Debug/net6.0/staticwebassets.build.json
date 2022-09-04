@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "t9FpB3YlgPBDP/XvYqd8G7vWouoPpKSmpFQlXnoJErs=",
+  "Hash": "u0p6psX2zTihOoI14OHUEIxIpNESK5pdKOPP1Dgwyt8=",
   "Source": "IoTPlatform.API",
   "BasePath": "_content/IoTPlatform.API",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "IoTPlatform.API\\wwwroot",
+      "Source": "IoTPlatform.API",
+      "ContentRoot": "D:\\Code Beginner\\DotNet Core\\IoTPlatform\\IoTPlatform\\IoTPlatform.API\\wwwroot\\",
+      "BasePath": "_content/IoTPlatform.API",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }
