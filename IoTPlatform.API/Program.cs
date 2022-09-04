@@ -41,9 +41,13 @@ namespace IoTPlatform
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<ICustomerService, CustomerService>();
 
-            // RuleChain
+            // Rule Chain
             builder.Services.AddScoped<IRuleChainRepository, RuleChainRepository>();
             builder.Services.AddScoped<IRuleChainService, RuleChainService>();
+
+            // Server Attribute
+            builder.Services.AddScoped<IServerAttributeRepository, ServerAttributeRepository>();
+            builder.Services.AddScoped<IServerAttributeService, ServerAttributeService>();
 
             var app = builder.Build();
 
