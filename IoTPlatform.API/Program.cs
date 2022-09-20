@@ -57,6 +57,10 @@ namespace IoTPlatform
             builder.Services.AddScoped<ISharedAttributeRepository, SharedAttributeRepository>();
             builder.Services.AddScoped<ISharedAttributeService, SharedAttributeService>();
 
+            // Telemetry
+            builder.Services.AddScoped<ITelemetryRepository, TelemetryRepository>();
+            builder.Services.AddScoped<ITelemetryService, TelemetryService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

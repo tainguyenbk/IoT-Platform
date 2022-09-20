@@ -6,7 +6,7 @@ namespace IoTPlatform.API.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    public class ServerAttributeController : Controller
+    public class ServerAttributeController : ControllerBase
     {
         private readonly IServerAttributeService _serverAttributeService;
 
