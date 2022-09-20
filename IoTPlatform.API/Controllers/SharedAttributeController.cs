@@ -6,7 +6,7 @@ namespace IoTPlatform.API.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    public class SharedAttributeController : Controller
+    public class SharedAttributeController : ControllerBase
     {
         private readonly ISharedAttributeService _sharedAttributeService;
 
