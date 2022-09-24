@@ -38,7 +38,6 @@ D:\Code Beginner\DotNet Core\IoTPlatform\IoTPlatform\IoTPlatform.API\obj\Debug\n
 D:\Code Beginner\DotNet Core\IoTPlatform\IoTPlatform\IoTPlatform.API\obj\Debug\net6.0\IoTPlatform.API.AssemblyInfoInputs.cache
 D:\Code Beginner\DotNet Core\IoTPlatform\IoTPlatform\IoTPlatform.API\obj\Debug\net6.0\IoTPlatform.API.AssemblyInfo.cs
 D:\Code Beginner\DotNet Core\IoTPlatform\IoTPlatform\IoTPlatform.API\obj\Debug\net6.0\IoTPlatform.API.csproj.CoreCompileInputs.cache
-D:\Code Beginner\DotNet Core\IoTPlatform\IoTPlatform\IoTPlatform.API\obj\Debug\net6.0\IoTPlatform.API.MvcApplicationPartsAssemblyInfo.cs
 D:\Code Beginner\DotNet Core\IoTPlatform\IoTPlatform\IoTPlatform.API\obj\Debug\net6.0\IoTPlatform.API.MvcApplicationPartsAssemblyInfo.cache
 D:\Code Beginner\DotNet Core\IoTPlatform\IoTPlatform\IoTPlatform.API\obj\Debug\net6.0\staticwebassets.build.json
 D:\Code Beginner\DotNet Core\IoTPlatform\IoTPlatform\IoTPlatform.API\obj\Debug\net6.0\staticwebassets.development.json

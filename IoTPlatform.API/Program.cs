@@ -5,6 +5,7 @@ using IoTPlatform.Infrastructure.Repositories;
 using IoTPlatform.Infrastructure.Repositories.Interfaces;
 using IoTPlatform.Infrastructure.Services;
 using IoTPlatform.Infrastructure.Services.Interfaces;
+using Microsoft.Extensions.FileProviders;
 
 namespace IoTPlatform
 {
@@ -61,6 +62,16 @@ namespace IoTPlatform
             builder.Services.AddScoped<ITelemetryRepository, TelemetryRepository>();
             builder.Services.AddScoped<ITelemetryService, TelemetryService>();
 
+            // AuditLog
+            builder.Services.AddScoped<IAuditLogRepository, AuditLogRepository>();
+            builder.Services.AddScoped<IAuditLogService, AuditLogService>();
+
+            // User
+            builder.Services.AddScoped<IUserService, UserService>();
+
+            // HTTP Context Accessor
+            builder.Services.AddHttpContextAccessor();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -73,6 +84,8 @@ namespace IoTPlatform
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.MapControllers();
 

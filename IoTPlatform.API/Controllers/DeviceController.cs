@@ -1,4 +1,5 @@
 ﻿using IoTPlatform.Domain.Models;
+using IoTPlatform.Domain.Models.AuditLog;
 using IoTPlatform.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,16 +10,25 @@ namespace IoTPlatform.API.Controllers
     public class DeviceController : ControllerBase
     {
         private readonly IDeviceService _deviceService;
+        private readonly IUserService _userService;
+        private readonly IAuditLogService _auditLogService;
 
-        public DeviceController(IDeviceService deviceService)
+        public DeviceController(IDeviceService deviceService, IAuditLogService auditLogService, IUserService userService)
         {
             _deviceService = deviceService;
+            _userService = userService;
+            _auditLogService = auditLogService;
         }
 
         [HttpPost]
         public async Task<ActionResult> AddDevice(Device device)
         {
             var result = await _deviceService.AddDeviceAsync(device);
+
+            var userInfor = _userService.GetUserInformation();
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID, 
+                result.DeviceName, userInfor[0], userInfor[1], ActionType.Create);
+
             return new JsonResult(new { result });
         }
 
@@ -46,14 +56,31 @@ namespace IoTPlatform.API.Controllers
 
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateDevice(string id, Device device)
-        {
+        { 
             var result = await _deviceService.UpdateDeviceAsync(id, device);
+
+            var userInfor = _userService.GetUserInformation();
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID, 
+                result.DeviceName, userInfor[0], userInfor[1], ActionType.Update);
+
             return new JsonResult(new { result });
+
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveDevice(string id)
         {
+            var removeDevice = await _deviceService.FindDeviceByIdAsync(id);
+            if (removeDevice == null)
+            {
+                return NotFound();
+            }
+
+            var userInfor = _userService.GetUserInformation();
+
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, removeDevice.DeviceID, 
+                removeDevice.DeviceName, userInfor[0], userInfor[1], ActionType.Delete);
+
             var result = await _deviceService.RemoveDeviceAsync(id);
             return new JsonResult(new { result });
         }

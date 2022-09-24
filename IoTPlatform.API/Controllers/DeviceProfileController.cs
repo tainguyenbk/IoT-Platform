@@ -1,4 +1,5 @@
 ﻿using IoTPlatform.Domain.Models;
+using IoTPlatform.Domain.Models.AuditLog;
 using IoTPlatform.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,18 +11,26 @@ namespace IoTPlatform.API.Controllers
     {
         private readonly IDeviceProfileService _deviceProfileService;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IUserService _userService;
+        private readonly IAuditLogService _auditLogService;
 
-        public DeviceProfileController(IDeviceProfileService deviceProfileService, IWebHostEnvironment webHostEnvironment)
+        public DeviceProfileController(IDeviceProfileService deviceProfileService, IWebHostEnvironment webHostEnvironment, IUserService userService, IAuditLogService auditLogService)
         {
             _deviceProfileService = deviceProfileService;
             _webHostEnvironment = webHostEnvironment;
-
+            _userService = userService;
+            _auditLogService = auditLogService;
         }
 
         [HttpPost]
         public async Task<ActionResult> AddDeviceProfile(DeviceProfile deviceProfile)
         {
             var result = await _deviceProfileService.AddDeviceProfileAsync(deviceProfile);
+
+            var userInfor = _userService.GetUserInformation();
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.DeviceProfile, result.DeviceProfileID, 
+                result.DeviceProfileName, userInfor[0], userInfor[1], ActionType.Create);
+            
             return new JsonResult(new { result });
         }
 
@@ -51,12 +60,27 @@ namespace IoTPlatform.API.Controllers
         public async Task<ActionResult> UpdateDeviceProfile(string id, DeviceProfile deviceProfile)
         {
             var result = await _deviceProfileService.UpdateDeviceProfleAsync(id, deviceProfile);
+
+            var userInfor = _userService.GetUserInformation();
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.DeviceProfile, result.DeviceProfileID, 
+                result.DeviceProfileName, userInfor[0], userInfor[1], ActionType.Update);
+
             return new JsonResult(new { result });
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveDeviceProfile(string id)
         {
+            var removeDeviceProfile = await _deviceProfileService.FindDeviceProfileByIdAsync(id);
+            if (removeDeviceProfile == null)
+            {
+                return NotFound();
+            }
+
+            var userInfor = _userService.GetUserInformation();
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.DeviceProfile, removeDeviceProfile.DeviceProfileID,
+                removeDeviceProfile.DeviceProfileName, userInfor[0], userInfor[1], ActionType.Delete);
+
             var result = await _deviceProfileService.RemoveDeviceProfileAsync(id);
             return new JsonResult(new { result });
         }
