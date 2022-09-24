@@ -16,8 +16,8 @@ namespace IoTPlatform.Domain.Models
         [BsonIgnoreIfDefault]
         public string? DeviceID { get; set; }
         public DateTime CreatedTime { get; set; }
-        public string? DeviceName { get; set; }
-        public string? DeviceProfile { get;set; }
+        public string DeviceName { get; set; }
+        public string DeviceProfile { get;set; }
         public string Label { get; set; }
         public string Description { get; set; }
         public string Customer { get; set; }

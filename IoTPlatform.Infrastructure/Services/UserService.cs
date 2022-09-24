@@ -10,26 +10,25 @@ namespace IoTPlatform.Infrastructure.Services
 {
     public class UserService : IUserService
     {
-        private readonly IHttpContextAccessor _httpContextAccesstor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public UserService(IHttpContextAccessor httpContextAccessor)
         {
-            _httpContextAccesstor = httpContextAccessor;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public string[] GetUserInformation()
         {
             var userInfor = new string[2];
-            
-            if (_httpContextAccesstor.HttpContext != null)
+            if (_httpContextAccessor.HttpContext != null)
             {
-                var userName = _httpContextAccesstor.HttpContext.User.FindFirst(claim => claim.Type == "UserName");
-                var userId = _httpContextAccesstor.HttpContext.User.FindFirst(claim => claim.Type == "UserId");
+                var name = _httpContextAccessor.HttpContext.User.FindFirst(c => c.Type == "UserName");
+                var id = _httpContextAccessor.HttpContext.User.FindFirst(c => c.Type == "UserID");
 
-                if (userName != null && userId != null)
+                if (name != null && id != null)
                 {
-                    userInfor[0] = userName.Value;
-                    userInfor[1] = userId.Value;
+                    userInfor[0] = name.Value;
+                    userInfor[1] = id.Value;
                 }
             }
             return userInfor;
