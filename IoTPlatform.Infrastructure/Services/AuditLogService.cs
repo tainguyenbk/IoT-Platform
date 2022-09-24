@@ -44,6 +44,11 @@ namespace IoTPlatform.Infrastructure.Services
             return await _auditLogRepository.FindAuditLogInPeriodTime(startTime, endTime);
         }
 
+        public async Task<IEnumerable<AuditLog>> FindAuditLogsAsync(string? auditLogID, string? entityTypeName, string? userName, DateTime? startTime, DateTime? endTime)
+        {
+            return await _auditLogRepository.FindAuditLogs(auditLogID, entityTypeName, userName, startTime, endTime);
+        }
+
         public async Task<IEnumerable<AuditLog>> GetAllAuditLogs()
         {
             return await _auditLogRepository.GetAll();

@@ -38,5 +38,38 @@ namespace IoTPlatform.Infrastructure.Repositories
             var res = await DbSet.Find(filter).ToListAsync();
             return res;
         }
+
+        public async Task<IEnumerable<AuditLog>> FindAuditLogs(string? auditLogID, string? entityTypeName, string? userName, DateTime? startTime, DateTime? endTime)
+        {
+            var filter = Builders<AuditLog>.Filter.Empty;
+
+            if (auditLogID != null)
+            {
+                filter &= Builders<AuditLog>.Filter.Eq("AuditLogID", auditLogID);
+            }
+
+            if (entityTypeName != null)
+            {
+                filter &= Builders<AuditLog>.Filter.Eq("EntityTypeName", entityTypeName);
+            }
+
+            if (userName != null)
+            {
+                filter &= Builders<AuditLog>.Filter.Eq("UserName", userName);
+            }
+
+            if (startTime != null)
+            {
+                filter &= Builders<AuditLog>.Filter.Gte("TimeStamp", startTime);
+            }
+
+            if (endTime != null)
+            {
+                filter &= Builders<AuditLog>.Filter.Lte("TimeStamp", endTime);
+            }
+
+            var res = await DbSet.Find(filter).ToListAsync();
+            return res;
+        }
     }
 }

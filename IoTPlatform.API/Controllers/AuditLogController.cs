@@ -71,5 +71,16 @@ namespace IoTPlatform.API.Controllers
             }
             return new JsonResult(new { result });
         }
+
+        [HttpGet]
+        public async Task<ActionResult> FindAuditLogs(string? auditLogID, string? entityTypeName, string? userName, DateTime? startTime, DateTime? endTime)
+        {
+            var result = await _auditLogService.FindAuditLogsAsync(auditLogID, entityTypeName, userName, startTime, endTime);
+            if (result.Count() == 0)
+            {
+                return NotFound();
+            }
+            return new JsonResult(new { result });
+        }
     }
 }

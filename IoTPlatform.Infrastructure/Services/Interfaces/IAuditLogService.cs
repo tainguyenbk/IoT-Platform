@@ -15,5 +15,6 @@ namespace IoTPlatform.Infrastructure.Services.Interfaces
         Task<IEnumerable<AuditLog>> FindAuditLogByEntityTypeNameAsync(string entityTypeName);
         Task<IEnumerable<AuditLog>> FindAuditLogByUserNameAsync(string userName);
         Task<IEnumerable<AuditLog>> FindAuditLogInPeriodTimeAsync(DateTime startTime, DateTime endTime);
+        Task<IEnumerable<AuditLog>> FindAuditLogsAsync(string? auditLogID, string? entityTypeName, string? userName, DateTime? startTime, DateTime? endTime);
     }
 }
