@@ -56,7 +56,8 @@ namespace IoTPlatform.Infrastructure.Repositories
         public async Task<TEntity> Update(string id, TEntity obj)
         {
             await DbSet.ReplaceOneAsync(FilterId(id), obj);
-            return obj;
+            var data = await DbSet.Find(FilterId(id)).SingleOrDefaultAsync();
+            return data;
         }
         private static FilterDefinition<TEntity> FilterId(string key)
         {
