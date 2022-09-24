@@ -6,9 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
-namespace IoTPlatform.Domain.Models
+namespace IoTPlatform.Domain.Models.Device
 {
     public class DeviceProfile
     {
@@ -16,7 +15,7 @@ namespace IoTPlatform.Domain.Models
         [BsonRepresentation(BsonType.ObjectId)]
         [BsonIgnoreIfDefault]
         public string? DeviceProfileID { get; set; }
-        public DateTime CreatedTime { get; set; }   
+        public DateTime CreatedTime { get; set; }
         public string? DeviceProfileName { get; set; }
         public string RuleChain { get; set; }
         public List<DeviceProfileImage> Images { get; set; } = new List<DeviceProfileImage>();

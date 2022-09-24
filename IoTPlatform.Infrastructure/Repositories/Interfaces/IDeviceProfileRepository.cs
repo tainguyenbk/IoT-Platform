@@ -1,4 +1,4 @@
-﻿using IoTPlatform.Domain.Models;
+﻿using IoTPlatform.Domain.Models.Device;
 using IoTPlatform.Domain.Repositories;
 using System;
 using System.Collections.Generic;

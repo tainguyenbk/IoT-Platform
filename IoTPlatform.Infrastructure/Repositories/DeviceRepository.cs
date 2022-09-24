@@ -1,4 +1,4 @@
-﻿using IoTPlatform.Domain.Models;
+﻿using IoTPlatform.Domain.Models.Device;
 using IoTPlatform.Infrastructure.Data;
 using IoTPlatform.Infrastructure.Repositories.Interfaces;
 using Microsoft.Extensions.Options;

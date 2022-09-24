@@ -7,23 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IoTPlatform.Domain.Models
+namespace IoTPlatform.Domain.Models.Device
 {
-    public class Customer
+    public class Device
     {
         [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
         [BsonRepresentation(BsonType.ObjectId)]
         [BsonIgnoreIfDefault]
-        public string? CustomerID { get; set; }
+        public string? DeviceID { get; set; }
         public DateTime CreatedTime { get; set; }
-        public string? Title { get; set; }
+        public string DeviceName { get; set; }
+        public string DeviceProfile { get; set; }
+        public string Label { get; set; }
         public string Description { get; set; }
-        public string Country { get; set; }
-        public string City { get; set; }
-        public string Province { get; set; }
-        public string PostalCode { get; set; }
-        public string Address { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Email { get; set; }
+        public string Customer { get; set; }
+        public bool Public { get; set; }
+        public bool IsGateway { get; set; }
     }
 }
