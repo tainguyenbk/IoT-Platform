@@ -71,8 +71,6 @@ namespace IoTPlatform.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveDeviceProfile(string id)
         {
-            var result = await _deviceProfileService.RemoveDeviceProfileAsync(id);
-
             var removeDeviceProfile = await _deviceProfileService.FindDeviceProfileByIdAsync(id);
             if (removeDeviceProfile == null)
             {
@@ -83,6 +81,7 @@ namespace IoTPlatform.API.Controllers
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.DeviceProfile, removeDeviceProfile.DeviceProfileID,
                 removeDeviceProfile.DeviceProfileName, userInfor[0], userInfor[1], ActionType.Delete);
 
+            var result = await _deviceProfileService.RemoveDeviceProfileAsync(id);
             return new JsonResult(new { result });
         }
 

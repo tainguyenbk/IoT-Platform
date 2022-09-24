@@ -68,9 +68,7 @@ namespace IoTPlatform.API.Controllers
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveRuleChain(string id)
-        {
-            var result = await _ruleChainService.RemoveRuleChainAsync(id);
-
+        { 
             var removeRuleChain = await _ruleChainService.FindRuleChainByIdAsync(id);
             if (removeRuleChain == null)
             {
@@ -80,7 +78,8 @@ namespace IoTPlatform.API.Controllers
             var userInfor = _userService.GetUserInformation();
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.RuleChain, removeRuleChain.RuleChainID,
                 removeRuleChain.RuleChainName, userInfor[0], userInfor[1], ActionType.Delete);
-
+           
+            var result = await _ruleChainService.RemoveRuleChainAsync(id);
             return new JsonResult(new { result });
         }
 

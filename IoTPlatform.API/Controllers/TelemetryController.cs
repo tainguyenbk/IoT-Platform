@@ -68,9 +68,7 @@ namespace IoTPlatform.API.Controllers
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveTelemetry(string id)
-        {
-            var result = await _telemetryService.RemoveTelemetryAsync(id);
-
+        { 
             var removeTelemetry = await _telemetryService.FindTelemetryByIdAsync(id);
             if (removeTelemetry == null)
             {
@@ -81,6 +79,7 @@ namespace IoTPlatform.API.Controllers
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Telemetry, removeTelemetry.TelemetryID,
                 "", userInfor[0], userInfor[1], ActionType.Delete);
 
+            var result = await _telemetryService.RemoveTelemetryAsync(id);
             return new JsonResult(new { result });
         }
 

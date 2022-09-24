@@ -68,9 +68,7 @@ namespace IoTPlatform.API.Controllers
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveSharedAttribute(string id)
-        {
-            var result = await _sharedAttributeService.RemoveSharedAttributeAsync(id);
-            
+        {             
             var removeAttribute = await _sharedAttributeService.FindSharedAttributeByIdAsync(id);
             if (removeAttribute == null)
             {
@@ -81,6 +79,7 @@ namespace IoTPlatform.API.Controllers
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.SharedAttribute, removeAttribute.AttributeID,
                 "", userInfor[0], userInfor[1], ActionType.Delete);
 
+            var result = await _sharedAttributeService.RemoveSharedAttributeAsync(id);
             return new JsonResult(new { result });
         }
 

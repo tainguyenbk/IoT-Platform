@@ -67,9 +67,7 @@ namespace IoTPlatform.API.Controllers
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveServerAttribute(string id)
-        {
-            var result = await _serverAttributeService.RemoveServerAttributeAsync(id);
-
+        {   
             var removeAttribute = await _serverAttributeService.FindServerAttributeByIdAsync(id);
             if (removeAttribute == null)
             {
@@ -80,6 +78,7 @@ namespace IoTPlatform.API.Controllers
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.ServerAttribute, removeAttribute.AttributeID,
                 "", userInfor[0], userInfor[1], ActionType.Create);
 
+            var result = await _serverAttributeService.RemoveServerAttributeAsync(id);
             return new JsonResult(new { result });
         }
 
