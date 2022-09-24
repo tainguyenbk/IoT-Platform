@@ -6,24 +6,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
-namespace IoTPlatform.Domain.Models
+namespace IoTPlatform.Domain.Models.Device
 {
-    public class Customer
+    public class DeviceProfile
     {
         [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
         [BsonRepresentation(BsonType.ObjectId)]
         [BsonIgnoreIfDefault]
-        public string? CustomerID { get; set; }
+        public string? DeviceProfileID { get; set; }
         public DateTime CreatedTime { get; set; }
-        public string? Title { get; set; }
+        public string? DeviceProfileName { get; set; }
+        public string RuleChain { get; set; }
+        public List<DeviceProfileImage> Images { get; set; } = new List<DeviceProfileImage>();
         public string Description { get; set; }
-        public string Country { get; set; }
-        public string City { get; set; }
-        public string Province { get; set; }
-        public string PostalCode { get; set; }
-        public string Address { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Email { get; set; }
+        public string TransportType { get; set; }
+        public bool Default { get; set; }
     }
 }

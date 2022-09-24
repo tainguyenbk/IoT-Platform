@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IoTPlatform.Domain.Models
+namespace IoTPlatform.Domain.Models.Attribute
 {
-    public class ClientAttribute : Attribute
+    public class SharedAttribute : Attribute
     {
     }
 }

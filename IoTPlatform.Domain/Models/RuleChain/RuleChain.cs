@@ -7,21 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IoTPlatform.Domain.Models
+namespace IoTPlatform.Domain.Models.RuleChain
 {
-    public class Device
+    public class RuleChain
     {
         [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
         [BsonRepresentation(BsonType.ObjectId)]
         [BsonIgnoreIfDefault]
-        public string? DeviceID { get; set; }
+        public string? RuleChainID { get; set; }
         public DateTime CreatedTime { get; set; }
-        public string DeviceName { get; set; }
-        public string DeviceProfile { get;set; }
-        public string Label { get; set; }
+        public string? RuleChainName { get; set; }
+        public bool DebugMode { get; set; }
+        public bool Root { get; set; }
         public string Description { get; set; }
-        public string Customer { get; set; }
-        public bool Public { get; set; }
-        public bool IsGateway { get; set; }
     }
 }
