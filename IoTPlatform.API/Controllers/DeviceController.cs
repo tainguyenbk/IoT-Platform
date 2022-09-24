@@ -24,8 +24,11 @@ namespace IoTPlatform.API.Controllers
         public async Task<ActionResult> AddDevice(Device device)
         {
             var result = await _deviceService.AddDeviceAsync(device);
+
             var userInfor = _userService.GetUserInformation();
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID, result.DeviceName, userInfor[0], userInfor[1], ActionType.Create);
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID, 
+                result.DeviceName, userInfor[0], userInfor[1], ActionType.Create);
+
             return new JsonResult(new { result });
         }
 
@@ -55,8 +58,11 @@ namespace IoTPlatform.API.Controllers
         public async Task<ActionResult> UpdateDevice(string id, Device device)
         { 
             var result = await _deviceService.UpdateDeviceAsync(id, device);
+
             var userInfor = _userService.GetUserInformation();
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID, result.DeviceName, userInfor[0], userInfor[1], ActionType.Update);
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID, 
+                result.DeviceName, userInfor[0], userInfor[1], ActionType.Update);
+
             return new JsonResult(new { result });
 
         }
@@ -73,7 +79,10 @@ namespace IoTPlatform.API.Controllers
             }
 
             var userInfor = _userService.GetUserInformation();
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, removeDevice.DeviceID, removeDevice.DeviceName, userInfor[0], userInfor[1], ActionType.Delete);
+
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, removeDevice.DeviceID, 
+                removeDevice.DeviceName, userInfor[0], userInfor[1], ActionType.Delete);
+
             return new JsonResult(new { result });
         }
 

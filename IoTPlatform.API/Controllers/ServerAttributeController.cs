@@ -1,4 +1,5 @@
 ﻿using IoTPlatform.Domain.Models;
+using IoTPlatform.Domain.Models.AuditLog;
 using IoTPlatform.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,16 +10,24 @@ namespace IoTPlatform.API.Controllers
     public class ServerAttributeController : ControllerBase
     {
         private readonly IServerAttributeService _serverAttributeService;
-
-        public ServerAttributeController(IServerAttributeService serverAttributeService)
+        private readonly IUserService _userService;
+        private readonly IAuditLogService _auditLogService;
+        public ServerAttributeController(IServerAttributeService serverAttributeService, IUserService userService, IAuditLogService auditLogService)
         {
             _serverAttributeService = serverAttributeService;
+            _userService = userService;
+            _auditLogService = auditLogService;
         }
 
         [HttpPost]
         public async Task<ActionResult> AddServerAttribute(ServerAttribute serverAttribute)
         {
             var result = await _serverAttributeService.AddServerAttributeAsync(serverAttribute);
+
+            var userInfor = _userService.GetUserInformation();
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.ServerAttribute, result.AttributeID,
+                "", userInfor[0], userInfor[1], ActionType.Create);
+
             return new JsonResult(new { result });
         }
 
@@ -48,6 +57,11 @@ namespace IoTPlatform.API.Controllers
         public async Task<ActionResult> UpdateServerAttribute(string id, ServerAttribute serverAttribute)
         {
             var result = await _serverAttributeService.UpdateServerAttributeAsync(id, serverAttribute);
+
+            var userInfor = _userService.GetUserInformation();
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.ServerAttribute, result.AttributeID,
+                "", userInfor[0], userInfor[1], ActionType.Update);
+
             return new JsonResult(new { result });
         }
 
@@ -55,6 +69,17 @@ namespace IoTPlatform.API.Controllers
         public async Task<ActionResult> RemoveServerAttribute(string id)
         {
             var result = await _serverAttributeService.RemoveServerAttributeAsync(id);
+
+            var removeAttribute = await _serverAttributeService.FindServerAttributeByIdAsync(id);
+            if (removeAttribute == null)
+            {
+                return NotFound();
+            }
+
+            var userInfor = _userService.GetUserInformation();
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.ServerAttribute, removeAttribute.AttributeID,
+                "", userInfor[0], userInfor[1], ActionType.Create);
+
             return new JsonResult(new { result });
         }
 
