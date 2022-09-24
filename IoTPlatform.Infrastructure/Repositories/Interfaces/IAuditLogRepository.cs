@@ -10,6 +10,8 @@ namespace IoTPlatform.Infrastructure.Repositories.Interfaces
 {
     public interface IAuditLogRepository : IBaseRepository<AuditLog>
     {
-
+        Task<IEnumerable<AuditLog>> FindAuditLogByEntityTypeName(string entityTypeName);
+        Task<IEnumerable<AuditLog>> FindAuditLogByUserName(string userName);
+        Task<IEnumerable<AuditLog>> FindAuditLogInPeriodTime(DateTime startTime, DateTime endTime);
     }
 }

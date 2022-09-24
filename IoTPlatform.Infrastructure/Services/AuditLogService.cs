@@ -24,6 +24,26 @@ namespace IoTPlatform.Infrastructure.Services
             return await _auditLogRepository.Add(auditLog);
         }
 
+        public async Task<IEnumerable<AuditLog>> FindAuditLogByEntityTypeNameAsync(string entityTypeName)
+        {
+            return await _auditLogRepository.FindAuditLogByEntityTypeName(entityTypeName);
+        }
+
+        public async Task<AuditLog> FindAuditLogByIdAsync(string id)
+        {
+            return await _auditLogRepository.GetById(id);
+        }
+
+        public async Task<IEnumerable<AuditLog>> FindAuditLogByUserNameAsync(string userName)
+        {
+            return await _auditLogRepository.FindAuditLogByUserName(userName);
+        }
+
+        public async Task<IEnumerable<AuditLog>> FindAuditLogInPeriodTimeAsync(DateTime startTime, DateTime endTime)
+        {
+            return await _auditLogRepository.FindAuditLogInPeriodTime(startTime, endTime);
+        }
+
         public async Task<IEnumerable<AuditLog>> GetAllAuditLogs()
         {
             return await _auditLogRepository.GetAll();
