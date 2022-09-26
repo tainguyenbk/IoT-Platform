@@ -1,10 +1,13 @@
 ﻿using IoTPlatform.Domain.Models.AuditLog;
 using IoTPlatform.Domain.Models.Device;
 using IoTPlatform.Infrastructure.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IoTPlatform.API.Controllers
 {
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [Route("[controller]/[action]")]
     public class DeviceController : ControllerBase
