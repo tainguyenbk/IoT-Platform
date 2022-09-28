@@ -11,8 +11,7 @@ namespace IoTPlatform.Infrastructure.Repositories.Interfaces
     public interface IDeviceRepository : IBaseRepository<Device>
     {
         Task<IEnumerable<Device>> FindDeviceByName(string name);
-        Task<IEnumerable<Device>> FindDeviceByDeviceProfile(string deviceProfile);
-        Task<IEnumerable<Device>> FindDeviceByLabel(string label);
-        Task<IEnumerable<Device>> FindDeviceByCustomer(string customer);
+        Task<IEnumerable<Device>> FindDeviceByDeviceProfileID(string deviceProfileID);
+        Task<IEnumerable<Device>> FindDeviceByCustomerID(string customerID);
     }
 }

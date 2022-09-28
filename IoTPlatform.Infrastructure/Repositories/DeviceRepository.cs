@@ -18,30 +18,23 @@ namespace IoTPlatform.Infrastructure.Repositories
 
         }
 
-        public async Task<IEnumerable<Device>> FindDeviceByCustomer(string customer)
+        public async Task<IEnumerable<Device>> FindDeviceByCustomerID(string customerID)
         {
-            var filter = Builders<Device>.Filter.Eq("Customer", customer);
+            var filter = Builders<Device>.Filter.Eq("CustomerID", customerID);
             var res = await DbSet.Find(filter).ToListAsync();
             return res;
         }
 
-        public async Task<IEnumerable<Device>> FindDeviceByDeviceProfile(string deviceProfile)
+        public async Task<IEnumerable<Device>> FindDeviceByDeviceProfileID(string deviceProfileID)
         {
-            var filter = Builders<Device>.Filter.Eq("DeviceProfile", deviceProfile);
-            var res = await DbSet.Find(filter).ToListAsync();
-            return res;
-        }
-
-        public async Task<IEnumerable<Device>> FindDeviceByLabel(string label)
-        {
-            var filter = Builders<Device>.Filter.Eq("Label", label);
+            var filter = Builders<Device>.Filter.Eq("DeviceProfileID", deviceProfileID);
             var res = await DbSet.Find(filter).ToListAsync();
             return res;
         }
 
         public async Task<IEnumerable<Device>> FindDeviceByName(string name)
         {
-            var filter = Builders<Device>.Filter.Eq("Name", name);
+            var filter = Builders<Device>.Filter.Eq("DeviceName", name);
             var res = await DbSet.Find(filter).ToListAsync();
             return res;
         }

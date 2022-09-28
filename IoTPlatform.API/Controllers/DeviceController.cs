@@ -49,7 +49,7 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> FindDeviceByID(string id)
         {
-            var result = await _deviceService.FindDeviceByIdAsync(id);
+            var result = await _deviceService.FindAllInDeviceByID(id);
             if (result == null)
             {
                 return NotFound();
@@ -99,10 +99,10 @@ namespace IoTPlatform.API.Controllers
             return new JsonResult(new { result });
         }
 
-        [HttpGet("{deviceProfile}")]
-        public async Task<ActionResult> FindDeviceByDeviceProfile(string deviceProfile)
+        [HttpGet("{deviceProfileID}")]
+        public async Task<ActionResult> FindDeviceByDeviceProfileID(string deviceProfileID)
         {
-            var result = await _deviceService.FindDeviceByDeviceProfileAsync(deviceProfile);
+            var result = await _deviceService.FindDeviceByDeviceProfileIDAsync(deviceProfileID);
             if (result == null)
             {
                 return NotFound();
@@ -110,21 +110,10 @@ namespace IoTPlatform.API.Controllers
             return new JsonResult(new { result });
         }
 
-        [HttpGet("{label}")]
-        public async Task<ActionResult> FindDeviceByLabel(string label)
+        [HttpGet("{customerID}")]
+        public async Task<ActionResult> FindDeviceByCustomerID(string customerID)
         {
-            var result = await _deviceService.FindDeviceByLabelAsync(label);
-            if (result == null)
-            {
-                return NotFound();
-            }
-            return new JsonResult(new { result });
-        }
-
-        [HttpGet("{customer}")]
-        public async Task<ActionResult> FindDeviceByCustomer(string customer)
-        {
-            var result = await _deviceService.FindDeviceByCustomerAsync(customer);
+            var result = await _deviceService.FindDeviceByCustomerIDAsync(customerID);
             if (result == null)
             {
                 return NotFound();

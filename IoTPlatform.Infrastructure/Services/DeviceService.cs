@@ -36,24 +36,48 @@ namespace IoTPlatform.Infrastructure.Services
             return _deviceRepository.Add(device);
         }
 
-        public Task<IEnumerable<Device>> FindDeviceByCustomerAsync(string customer)
+        public async Task<DeviceResponse?> FindAllInDeviceByID(string id)
         {
-            return _deviceRepository.FindDeviceByCustomer(customer);
+            var device = await _deviceRepository.GetById(id);
+
+            if (device == null)
+            {
+                return null;
+            }    
+            else
+            {
+                var clientAttributes = await _clientAttributeRepository.FindClientAttributeByDeviceID(device.DeviceID);
+                var serverAttributes = await _serverAttributeRepository.FindServerAttributeByDeviceID(device.DeviceID);
+                var sharedAttributes = await _sharedAttributeRepository.FindSharedAttributeByDeviceID(device.DeviceID);
+                var lastTelemetry = await _telemetryRepository.FindLastestTelemetry();
+                var auditLogs = await _auditLogRepository.FindAuditLogsByEntityID(device.DeviceID);
+
+                DeviceResponse deviceResponse = new DeviceResponse()
+                {
+                    Device = device,
+                    ClientAttributes = clientAttributes.ToList(),
+                    ServerAttributes = serverAttributes.ToList(),
+                    SharedAttributes = sharedAttributes.ToList(),
+                    LastTelemetry = lastTelemetry,
+                    AuditLogs = auditLogs.ToList()
+                };
+                return deviceResponse;
+            }
         }
 
-        public Task<IEnumerable<Device>> FindDeviceByDeviceProfileAsync(string deviceProfile)
+        public Task<IEnumerable<Device>> FindDeviceByCustomerIDAsync(string customer)
         {
-            return _deviceRepository.FindDeviceByDeviceProfile(deviceProfile);
+            return _deviceRepository.FindDeviceByCustomerID(customer);
+        }
+
+        public Task<IEnumerable<Device>> FindDeviceByDeviceProfileIDAsync(string deviceProfile)
+        {
+            return _deviceRepository.FindDeviceByDeviceProfileID(deviceProfile);
         }
 
         public Task<Device> FindDeviceByIdAsync(string id)
         {
             return _deviceRepository.GetById(id);
-        }
-
-        public Task<IEnumerable<Device>> FindDeviceByLabelAsync(string label)
-        {
-            return _deviceRepository.FindDeviceByLabel(label);
         }
 
         public Task<IEnumerable<Device>> FindDeviceByNameAsync(string name)
@@ -74,7 +98,7 @@ namespace IoTPlatform.Infrastructure.Services
                 var lastTelemetry = await _telemetryRepository.FindLastestTelemetry();
                 var auditLogs = await _auditLogRepository.FindAuditLogsByEntityID(device.DeviceID);
 
-                DeviceResponse deviceRespons = new DeviceResponse()
+                DeviceResponse deviceResponse = new DeviceResponse()
                 {
                     Device = device,
                     ClientAttributes = clientAttributes.ToList(),
@@ -83,7 +107,7 @@ namespace IoTPlatform.Infrastructure.Services
                     LastTelemetry = lastTelemetry,
                     AuditLogs = auditLogs.ToList()
                 };
-                result.Add(deviceRespons);
+                result.Add(deviceResponse);
             }
             return result;
         }
