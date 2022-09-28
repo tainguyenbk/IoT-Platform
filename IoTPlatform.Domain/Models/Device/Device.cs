@@ -17,11 +17,11 @@ namespace IoTPlatform.Domain.Models.Device
         public string? DeviceID { get; set; }
         public DateTime CreatedTime { get; set; }
         public string DeviceName { get; set; }
-        public string DeviceProfile { get; set; }
-        public string Label { get; set; }
-        public string Description { get; set; }
-        public string Customer { get; set; }
-        public bool Public { get; set; }
-        public bool IsGateway { get; set; }
+        public string DeviceProfileID { get; set; }
+        public string? Label { get; set; }
+        public string? Description { get; set; }
+        public string? CustomerID { get; set; }
+        public bool? Public { get; set; }
+        public bool? IsGateway { get; set; }
     }
 }
