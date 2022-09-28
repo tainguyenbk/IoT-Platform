@@ -71,5 +71,12 @@ namespace IoTPlatform.Infrastructure.Repositories
             var res = await DbSet.Find(filter).ToListAsync();
             return res;
         }
+
+        public async Task<IEnumerable<AuditLog>> FindAuditLogsByEntityID(string entityID)
+        {
+            var filter = Builders<AuditLog>.Filter.Eq("EntityID", entityID);
+            var res = await DbSet.Find(filter).ToListAsync();
+            return res;
+        }
     }
 }

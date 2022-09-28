@@ -11,5 +11,6 @@ namespace IoTPlatform.Infrastructure.Repositories.Interfaces
     public interface ITelemetryRepository : IBaseRepository<Telemetry>
     {
         Task<IEnumerable<Telemetry>> FindTelemetryByDeviceID(string deviceID);
+        Task<Telemetry> FindLastestTelemetry();
     }
 }

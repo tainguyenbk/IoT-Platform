@@ -11,7 +11,7 @@ namespace IoTPlatform.Infrastructure.Services.Interfaces
     {
         Task<Device> AddDeviceAsync(Device device);
         Task<Device> FindDeviceByIdAsync(string id);
-        Task<IEnumerable<Device>> GetAllDevicesAsync();
+        Task<IEnumerable<DeviceResponse>> GetAllDevicesAsync();
         Task<Device> UpdateDeviceAsync(string id, Device device);
         Task<bool> RemoveDeviceAsync(string id);
         Task<IEnumerable<Device>> FindDeviceByNameAsync(string name);

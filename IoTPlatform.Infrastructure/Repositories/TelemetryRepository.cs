@@ -18,6 +18,12 @@ namespace IoTPlatform.Infrastructure.Repositories
 
         }
 
+        public async Task<Telemetry> FindLastestTelemetry()
+        {
+            var result = await DbSet.Find(x => true).SortByDescending(d => d.LastUpdateTime).Limit(1).FirstOrDefaultAsync();
+            return result;
+        }
+
         public async Task<IEnumerable<Telemetry>> FindTelemetryByDeviceID(string deviceID)
         {
             var filter = Builders<Telemetry>.Filter.Eq("DeviceID", deviceID);
