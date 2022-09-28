@@ -1,19 +1,15 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson.Serialization.IdGenerators;
+﻿using IoTPlatform.Domain.Models.Attributes;
+using IoTPlatform.Domain.Models.Telemetries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IoTPlatform.Domain.Models.Device
+namespace IoTPlatform.Domain.Models.Devices
 {
-    public class Device
+    public class DeviceResponse
     {
-        [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
-        [BsonRepresentation(BsonType.ObjectId)]
-        [BsonIgnoreIfDefault]
         public string? DeviceID { get; set; }
         public DateTime CreatedTime { get; set; }
         public string DeviceName { get; set; }
@@ -23,5 +19,8 @@ namespace IoTPlatform.Domain.Models.Device
         public string? CustomerID { get; set; }
         public bool? Public { get; set; }
         public bool? IsGateway { get; set; }
+        public List<ClientAttribute>? ClientAttributes { get; set; }
+        public List<ServerAttribute>? ServerAttributes { get; set; }
+        public List<SharedAttribute>? SharedAttributes { get; set; }
     }
 }

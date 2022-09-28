@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IoTPlatform.Domain.Models.Attribute
+namespace IoTPlatform.Domain.Models.DeviceProfiles
 {
-    public class ServerAttribute : Attribute
+    public class DeviceProfileImage
     {
-
+        public string? FilePath { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using IoTPlatform.Domain.Models.Device;
+﻿using IoTPlatform.Domain.Models.DeviceProfiles;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

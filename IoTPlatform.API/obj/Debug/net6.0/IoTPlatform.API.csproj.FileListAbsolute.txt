@@ -48,3 +48,12 @@ D:\Code Beginner\DotNet Core\IoTPlatform\IoTPlatform\IoTPlatform.API\obj\Debug\n
 D:\Code Beginner\DotNet Core\IoTPlatform\IoTPlatform\IoTPlatform.API\obj\Debug\net6.0\IoTPlatform.API.pdb
 D:\Code Beginner\DotNet Core\IoTPlatform\IoTPlatform\IoTPlatform.API\obj\Debug\net6.0\IoTPlatform.API.genruntimeconfig.cache
 D:\Code Beginner\DotNet Core\IoTPlatform\IoTPlatform\IoTPlatform.API\obj\Debug\net6.0\ref\IoTPlatform.API.dll
+D:\Code Beginner\DotNet Core\IoTPlatform\IoTPlatform\IoTPlatform.API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Code Beginner\DotNet Core\IoTPlatform\IoTPlatform\IoTPlatform.API\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+D:\Code Beginner\DotNet Core\IoTPlatform\IoTPlatform\IoTPlatform.API\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Code Beginner\DotNet Core\IoTPlatform\IoTPlatform\IoTPlatform.API\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+D:\Code Beginner\DotNet Core\IoTPlatform\IoTPlatform\IoTPlatform.API\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+D:\Code Beginner\DotNet Core\IoTPlatform\IoTPlatform\IoTPlatform.API\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Code Beginner\DotNet Core\IoTPlatform\IoTPlatform\IoTPlatform.API\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+D:\Code Beginner\DotNet Core\IoTPlatform\IoTPlatform\IoTPlatform.API\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+D:\Code Beginner\DotNet Core\IoTPlatform\IoTPlatform\IoTPlatform.API\obj\Debug\net6.0\IoTPlatform.API.MvcApplicationPartsAssemblyInfo.cs

@@ -1,4 +1,4 @@
-﻿using IoTPlatform.Domain.Models.RuleChain;
+﻿using IoTPlatform.Domain.Models.RuleChains;
 using IoTPlatform.Domain.Repositories;
 using System;
 using System.Collections.Generic;

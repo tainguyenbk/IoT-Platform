@@ -1,5 +1,5 @@
-﻿using IoTPlatform.Domain.Models.AuditLog;
-using IoTPlatform.Domain.Models.Device;
+﻿using IoTPlatform.Domain.Models.AuditLogs;
+using IoTPlatform.Domain.Models.Devices;
 using IoTPlatform.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

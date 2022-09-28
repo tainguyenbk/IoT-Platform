@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IoTPlatform.Domain.Models.Attribute
+namespace IoTPlatform.Domain.Models.Attributes
 {
     public class SharedAttribute : Attribute
     {

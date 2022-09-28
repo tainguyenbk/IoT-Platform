@@ -1,5 +1,5 @@
-﻿using IoTPlatform.Domain.Models.AuditLog;
-using IoTPlatform.Domain.Models.Customer;
+﻿using IoTPlatform.Domain.Models.AuditLogs;
+using IoTPlatform.Domain.Models.Customers;
 using IoTPlatform.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

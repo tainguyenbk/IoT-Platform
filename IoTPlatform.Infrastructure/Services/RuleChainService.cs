@@ -1,4 +1,4 @@
-﻿using IoTPlatform.Domain.Models.RuleChain;
+﻿using IoTPlatform.Domain.Models.RuleChains;
 using IoTPlatform.Infrastructure.Repositories.Interfaces;
 using IoTPlatform.Infrastructure.Services.Interfaces;
 using System;

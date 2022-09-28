@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IoTPlatform.Domain.Models.Telemetry
+namespace IoTPlatform.Domain.Models.Telemetries
 {
     public class Telemetry
     {
