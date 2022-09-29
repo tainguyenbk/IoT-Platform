@@ -124,7 +124,7 @@ namespace IoTPlatform.API.Controllers
         [HttpPost("{id}")]
         public async Task<ActionResult> MakeDevicePublic(string id)
         {
-            var result = await _deviceService.MakeDevicePublic(id);
+            var result = await _deviceService.MakeDevicePublicAsync(id);
             if (result == null)
             {
                 return NotFound();
@@ -135,7 +135,29 @@ namespace IoTPlatform.API.Controllers
         [HttpPost("{id}")]
         public async Task<ActionResult> MakeDevicePrivate(string id)
         {
-            var result = await _deviceService.MakeDevicePrivate(id);
+            var result = await _deviceService.MakeDevicePrivateAysnc(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return new JsonResult(new { result });
+        }
+
+        [HttpPost("{id}&&{customerID}")]
+        public async Task<ActionResult> AssignDeviceToCustomer(string id, string customerID)
+        {
+            var result = await _deviceService.AssignDeviceToCustomerAsync(id, customerID);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return new JsonResult(new { result });
+        }
+
+        [HttpPost("{id}")]
+        public async Task<ActionResult> UnAssignDeviceToCustomer(string id)
+        {
+            var result = await _deviceService.UnAssignDeviceToCustomerAsync(id);
             if (result == null)
             {
                 return NotFound();
