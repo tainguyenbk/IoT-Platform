@@ -36,6 +36,11 @@ namespace IoTPlatform.Infrastructure.Services
             return _deviceRepository.Add(device);
         }
 
+        public Task<Device> AssignDeviceToCustomer(string id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<DeviceResponse?> FindAllInDeviceByID(string id)
         {
             var device = await _deviceRepository.GetById(id);
@@ -112,9 +117,24 @@ namespace IoTPlatform.Infrastructure.Services
             return result;
         }
 
+        public Task<Device> MakeDevicePrivate(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Device> MakeDevicePublic(string id)
+        {
+            return await _deviceRepository.MakeDevicePublic(id);
+        }
+
         public Task<bool> RemoveDeviceAsync(string id)
         {
             return _deviceRepository.Remove(id);
+        }
+
+        public Task<Device> UnAssignDeviceToCustomer(string id)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<Device> UpdateDeviceAsync(string id, Device device)

@@ -13,5 +13,7 @@ namespace IoTPlatform.Infrastructure.Repositories.Interfaces
         Task<IEnumerable<Device>> FindDeviceByName(string name);
         Task<IEnumerable<Device>> FindDeviceByDeviceProfileID(string deviceProfileID);
         Task<IEnumerable<Device>> FindDeviceByCustomerID(string customerID);
+        Task<Device> MakeDevicePublic(string id);
+        Task<Device> MakeDevicePrivate(string id);
     }
 }

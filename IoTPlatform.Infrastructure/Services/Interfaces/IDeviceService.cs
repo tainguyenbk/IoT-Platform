@@ -18,5 +18,9 @@ namespace IoTPlatform.Infrastructure.Services.Interfaces
         Task<IEnumerable<Device>> FindDeviceByDeviceProfileIDAsync(string deviceProfileID);
         Task<IEnumerable<Device>> FindDeviceByCustomerIDAsync(string customerID);
         Task<DeviceResponse> FindAllInDeviceByID(string id);
+        Task<Device> MakeDevicePublic(string id);
+        Task<Device> MakeDevicePrivate(string id);
+        Task<Device> AssignDeviceToCustomer(string id);
+        Task<Device> UnAssignDeviceToCustomer(string id);
     }
 }

@@ -38,5 +38,37 @@ namespace IoTPlatform.Infrastructure.Repositories
             var res = await DbSet.Find(filter).ToListAsync();
             return res;
         }
+
+        public Task<Device> MakeDevicePrivate(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Device> MakeDevicePublic(string id)
+        {
+            var filter = Builders<Device>.Filter.Eq("DeviceID", id);
+            var device = await DbSet.Find(filter).ToListAsync();
+            var newDevice = new Device();
+
+            foreach(var item in device)
+            {
+                newDevice = new Device()
+                {
+                    DeviceID = item.DeviceID,
+                    CreatedTime = item.CreatedTime,
+                    DeviceName = item.DeviceName,
+                    DeviceProfileID = item.DeviceProfileID,
+                    Label = item.Label,
+                    Description = item.Description,
+                    CustomerID = item.CustomerID,
+                    Public = true,
+                    IsGateway = item.IsGateway
+                };
+            }    
+
+            await DbSet.ReplaceOneAsync(filter, newDevice);
+            var res = await DbSet.Find(filter).SingleOrDefaultAsync();
+            return res;
+        }
     }
 }

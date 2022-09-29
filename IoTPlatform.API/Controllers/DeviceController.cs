@@ -29,7 +29,7 @@ namespace IoTPlatform.API.Controllers
             var result = await _deviceService.AddDeviceAsync(device);
 
             var userInfor = _userService.GetUserInformation();
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID, 
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID,
                 result.DeviceName, userInfor[0], userInfor[1], ActionType.Create);
 
             return new JsonResult(new { result });
@@ -59,11 +59,11 @@ namespace IoTPlatform.API.Controllers
 
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateDevice(string id, Device device)
-        { 
+        {
             var result = await _deviceService.UpdateDeviceAsync(id, device);
 
             var userInfor = _userService.GetUserInformation();
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID, 
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID,
                 result.DeviceName, userInfor[0], userInfor[1], ActionType.Update);
 
             return new JsonResult(new { result });
@@ -81,7 +81,7 @@ namespace IoTPlatform.API.Controllers
 
             var userInfor = _userService.GetUserInformation();
 
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, removeDevice.DeviceID, 
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, removeDevice.DeviceID,
                 removeDevice.DeviceName, userInfor[0], userInfor[1], ActionType.Delete);
 
             var result = await _deviceService.RemoveDeviceAsync(id);
@@ -114,6 +114,17 @@ namespace IoTPlatform.API.Controllers
         public async Task<ActionResult> FindDeviceByCustomerID(string customerID)
         {
             var result = await _deviceService.FindDeviceByCustomerIDAsync(customerID);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return new JsonResult(new { result });
+        }
+
+        [HttpPost("{id}")]
+        public async Task<ActionResult> MakeDevicePublic(string id)
+        {
+            var result = await _deviceService.MakeDevicePublic(id);
             if (result == null)
             {
                 return NotFound();
