@@ -131,5 +131,16 @@ namespace IoTPlatform.API.Controllers
             }
             return new JsonResult(new { result });
         }
+
+        [HttpPost("{id}")]
+        public async Task<ActionResult> MakeDevicePrivate(string id)
+        {
+            var result = await _deviceService.MakeDevicePrivate(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return new JsonResult(new { result });
+        }
     }
 }

@@ -117,9 +117,9 @@ namespace IoTPlatform.Infrastructure.Services
             return result;
         }
 
-        public Task<Device> MakeDevicePrivate(string id)
+        public async Task<Device> MakeDevicePrivate(string id)
         {
-            throw new NotImplementedException();
+            return await _deviceRepository.MakeDevicePrivate(id);
         }
 
         public async Task<Device> MakeDevicePublic(string id)
