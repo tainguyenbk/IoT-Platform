@@ -1,4 +1,4 @@
-﻿using IoTPlatform.Domain.Models.AuditLog;
+﻿using IoTPlatform.Domain.Models.AuditLogs;
 using IoTPlatform.Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -14,5 +14,6 @@ namespace IoTPlatform.Infrastructure.Repositories.Interfaces
         Task<IEnumerable<AuditLog>> FindAuditLogByUserName(string userName);
         Task<IEnumerable<AuditLog>> FindAuditLogInPeriodTime(DateTime startTime, DateTime endTime);
         Task<IEnumerable<AuditLog>> FindAuditLogs(string? auditLogID, string? entityTypeName, string? userName, DateTime? startTime, DateTime? endTime);
+        Task<IEnumerable<AuditLog>> FindAuditLogsByEntityID(string entityID);
     }
 }

@@ -7,14 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IoTPlatform.Domain.Models.Attribute
+namespace IoTPlatform.Domain.Models.Telemetries
 {
-    public class Attribute
+    public class Telemetry
     {
         [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
         [BsonRepresentation(BsonType.ObjectId)]
         [BsonIgnoreIfDefault]
-        public string? AttributeID { get; set; }
+        public string? TelemetryID { get; set; }
         public string? DeviceID { get; set; }
         public DateTime LastUpdateTime { get; set; }
         public string? Key { get; set; }

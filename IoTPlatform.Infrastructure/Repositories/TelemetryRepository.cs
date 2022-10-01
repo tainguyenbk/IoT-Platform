@@ -1,4 +1,4 @@
-﻿using IoTPlatform.Domain.Models.Telemetry;
+﻿using IoTPlatform.Domain.Models.Telemetries;
 using IoTPlatform.Infrastructure.Data;
 using IoTPlatform.Infrastructure.Repositories.Interfaces;
 using Microsoft.Extensions.Options;
@@ -16,6 +16,12 @@ namespace IoTPlatform.Infrastructure.Repositories
         public TelemetryRepository(IOptions<DatabaseSetting> databaseSetting) : base(databaseSetting)
         {
 
+        }
+
+        public async Task<Telemetry> FindLastestTelemetry()
+        {
+            var result = await DbSet.Find(x => true).SortByDescending(d => d.LastUpdateTime).Limit(1).FirstOrDefaultAsync();
+            return result;
         }
 
         public async Task<IEnumerable<Telemetry>> FindTelemetryByDeviceID(string deviceID)

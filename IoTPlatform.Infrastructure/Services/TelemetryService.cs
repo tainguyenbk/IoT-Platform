@@ -1,4 +1,4 @@
-﻿using IoTPlatform.Domain.Models.Telemetry;
+﻿using IoTPlatform.Domain.Models.Telemetries;
 using IoTPlatform.Infrastructure.Repositories.Interfaces;
 using IoTPlatform.Infrastructure.Services.Interfaces;
 using System;

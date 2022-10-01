@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IoTPlatform.Domain.Models.AuditLog
+namespace IoTPlatform.Domain.Models.AuditLogs
 {
     public class AuditLog
     {

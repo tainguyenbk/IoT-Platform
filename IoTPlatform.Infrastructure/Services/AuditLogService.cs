@@ -1,4 +1,4 @@
-﻿using IoTPlatform.Domain.Models.AuditLog;
+﻿using IoTPlatform.Domain.Models.AuditLogs;
 using IoTPlatform.Infrastructure.Repositories.Interfaces;
 using IoTPlatform.Infrastructure.Services.Interfaces;
 using System;

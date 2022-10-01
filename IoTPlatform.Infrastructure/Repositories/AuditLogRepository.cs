@@ -1,4 +1,4 @@
-﻿using IoTPlatform.Domain.Models.AuditLog;
+﻿using IoTPlatform.Domain.Models.AuditLogs;
 using IoTPlatform.Infrastructure.Data;
 using IoTPlatform.Infrastructure.Repositories.Interfaces;
 using Microsoft.Extensions.Options;
@@ -68,6 +68,13 @@ namespace IoTPlatform.Infrastructure.Repositories
                 filter &= Builders<AuditLog>.Filter.Lte("TimeStamp", endTime);
             }
 
+            var res = await DbSet.Find(filter).ToListAsync();
+            return res;
+        }
+
+        public async Task<IEnumerable<AuditLog>> FindAuditLogsByEntityID(string entityID)
+        {
+            var filter = Builders<AuditLog>.Filter.Eq("EntityID", entityID);
             var res = await DbSet.Find(filter).ToListAsync();
             return res;
         }

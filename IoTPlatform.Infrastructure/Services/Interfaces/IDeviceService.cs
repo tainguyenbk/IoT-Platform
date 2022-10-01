@@ -1,4 +1,4 @@
-﻿using IoTPlatform.Domain.Models.Device;
+﻿using IoTPlatform.Domain.Models.Devices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +11,16 @@ namespace IoTPlatform.Infrastructure.Services.Interfaces
     {
         Task<Device> AddDeviceAsync(Device device);
         Task<Device> FindDeviceByIdAsync(string id);
-        Task<IEnumerable<Device>> GetAllDevicesAsync();
+        Task<IEnumerable<DeviceResponse>> GetAllDevicesAsync();
         Task<Device> UpdateDeviceAsync(string id, Device device);
         Task<bool> RemoveDeviceAsync(string id);
         Task<IEnumerable<Device>> FindDeviceByNameAsync(string name);
-        Task<IEnumerable<Device>> FindDeviceByDeviceProfileAsync(string deviceProfile);
-        Task<IEnumerable<Device>> FindDeviceByLabelAsync(string label);
-        Task<IEnumerable<Device>> FindDeviceByCustomerAsync(string customer);
+        Task<IEnumerable<Device>> FindDeviceByDeviceProfileIDAsync(string deviceProfileID);
+        Task<IEnumerable<Device>> FindDeviceByCustomerIDAsync(string customerID);
+        Task<DeviceResponse> FindAllInDeviceByID(string id);
+        Task<Device> MakeDevicePublicAsync(string id);
+        Task<Device> MakeDevicePrivateAysnc(string id);
+        Task<Device> AssignDeviceToCustomerAsync(string id, string customerID);
+        Task<Device> UnAssignDeviceToCustomerAsync(string id);
     }
 }

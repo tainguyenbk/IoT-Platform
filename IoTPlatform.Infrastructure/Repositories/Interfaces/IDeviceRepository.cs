@@ -1,4 +1,4 @@
-﻿using IoTPlatform.Domain.Models.Device;
+﻿using IoTPlatform.Domain.Models.Devices;
 using IoTPlatform.Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -11,8 +11,11 @@ namespace IoTPlatform.Infrastructure.Repositories.Interfaces
     public interface IDeviceRepository : IBaseRepository<Device>
     {
         Task<IEnumerable<Device>> FindDeviceByName(string name);
-        Task<IEnumerable<Device>> FindDeviceByDeviceProfile(string deviceProfile);
-        Task<IEnumerable<Device>> FindDeviceByLabel(string label);
-        Task<IEnumerable<Device>> FindDeviceByCustomer(string customer);
+        Task<IEnumerable<Device>> FindDeviceByDeviceProfileID(string deviceProfileID);
+        Task<IEnumerable<Device>> FindDeviceByCustomerID(string customerID);
+        Task<Device> MakeDevicePublic(string id);
+        Task<Device> MakeDevicePrivate(string id);
+        Task<Device> AssignToCustomer(string id, string customerID);
+        Task<Device> UnAssignToCustomer(string id);
     }
 }

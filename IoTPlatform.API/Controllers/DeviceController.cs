@@ -1,5 +1,5 @@
-﻿using IoTPlatform.Domain.Models.AuditLog;
-using IoTPlatform.Domain.Models.Device;
+﻿using IoTPlatform.Domain.Models.AuditLogs;
+using IoTPlatform.Domain.Models.Devices;
 using IoTPlatform.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -29,7 +29,7 @@ namespace IoTPlatform.API.Controllers
             var result = await _deviceService.AddDeviceAsync(device);
 
             var userInfor = _userService.GetUserInformation();
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID, 
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID,
                 result.DeviceName, userInfor[0], userInfor[1], ActionType.Create);
 
             return new JsonResult(new { result });
@@ -49,7 +49,7 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> FindDeviceByID(string id)
         {
-            var result = await _deviceService.FindDeviceByIdAsync(id);
+            var result = await _deviceService.FindAllInDeviceByID(id);
             if (result == null)
             {
                 return NotFound();
@@ -59,11 +59,11 @@ namespace IoTPlatform.API.Controllers
 
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateDevice(string id, Device device)
-        { 
+        {
             var result = await _deviceService.UpdateDeviceAsync(id, device);
 
             var userInfor = _userService.GetUserInformation();
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID, 
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID,
                 result.DeviceName, userInfor[0], userInfor[1], ActionType.Update);
 
             return new JsonResult(new { result });
@@ -81,7 +81,7 @@ namespace IoTPlatform.API.Controllers
 
             var userInfor = _userService.GetUserInformation();
 
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, removeDevice.DeviceID, 
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, removeDevice.DeviceID,
                 removeDevice.DeviceName, userInfor[0], userInfor[1], ActionType.Delete);
 
             var result = await _deviceService.RemoveDeviceAsync(id);
@@ -99,10 +99,10 @@ namespace IoTPlatform.API.Controllers
             return new JsonResult(new { result });
         }
 
-        [HttpGet("{deviceProfile}")]
-        public async Task<ActionResult> FindDeviceByDeviceProfile(string deviceProfile)
+        [HttpGet("{deviceProfileID}")]
+        public async Task<ActionResult> FindDeviceByDeviceProfileID(string deviceProfileID)
         {
-            var result = await _deviceService.FindDeviceByDeviceProfileAsync(deviceProfile);
+            var result = await _deviceService.FindDeviceByDeviceProfileIDAsync(deviceProfileID);
             if (result == null)
             {
                 return NotFound();
@@ -110,10 +110,10 @@ namespace IoTPlatform.API.Controllers
             return new JsonResult(new { result });
         }
 
-        [HttpGet("{label}")]
-        public async Task<ActionResult> FindDeviceByLabel(string label)
+        [HttpGet("{customerID}")]
+        public async Task<ActionResult> FindDeviceByCustomerID(string customerID)
         {
-            var result = await _deviceService.FindDeviceByLabelAsync(label);
+            var result = await _deviceService.FindDeviceByCustomerIDAsync(customerID);
             if (result == null)
             {
                 return NotFound();
@@ -121,10 +121,43 @@ namespace IoTPlatform.API.Controllers
             return new JsonResult(new { result });
         }
 
-        [HttpGet("{customer}")]
-        public async Task<ActionResult> FindDeviceByCustomer(string customer)
+        [HttpPost("{id}")]
+        public async Task<ActionResult> MakeDevicePublic(string id)
         {
-            var result = await _deviceService.FindDeviceByCustomerAsync(customer);
+            var result = await _deviceService.MakeDevicePublicAsync(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return new JsonResult(new { result });
+        }
+
+        [HttpPost("{id}")]
+        public async Task<ActionResult> MakeDevicePrivate(string id)
+        {
+            var result = await _deviceService.MakeDevicePrivateAysnc(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return new JsonResult(new { result });
+        }
+
+        [HttpPost("{id}&&{customerID}")]
+        public async Task<ActionResult> AssignDeviceToCustomer(string id, string customerID)
+        {
+            var result = await _deviceService.AssignDeviceToCustomerAsync(id, customerID);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return new JsonResult(new { result });
+        }
+
+        [HttpPost("{id}")]
+        public async Task<ActionResult> UnAssignDeviceToCustomer(string id)
+        {
+            var result = await _deviceService.UnAssignDeviceToCustomerAsync(id);
             if (result == null)
             {
                 return NotFound();

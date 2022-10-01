@@ -1,4 +1,4 @@
-﻿using IoTPlatform.Domain.Models.Customer;
+﻿using IoTPlatform.Domain.Models.Customers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
