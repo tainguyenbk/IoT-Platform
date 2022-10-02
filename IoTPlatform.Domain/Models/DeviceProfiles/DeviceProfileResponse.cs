@@ -9,7 +9,7 @@ namespace IoTPlatform.Domain.Models.DeviceProfiles
 {
     public class DeviceProfileResponse
     {
-        DeviceProfile? DeviceProfile { get; set; }
-        List<AuditLog>? AudiLogs { get; set; }
+        public DeviceProfile? DeviceProfile { get; set; }
+        public List<AuditLog>? AudiLogs { get; set; }
     }
 }
