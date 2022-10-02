@@ -33,6 +33,11 @@ namespace IoTPlatform.Infrastructure.Services
             return _deviceProfileRepository.FindDeviceProifleByName(name);
         }
 
+        public Task<IEnumerable<DeviceProfile>> FindDeviceProifleByRuleChainIDAsync(string ruleChainID)
+        {
+            return _deviceProfileRepository.FindDeviceProifleByRuleChainID(ruleChainID);
+        }
+
         public Task<IEnumerable<DeviceProfile>> GetAllDeviceProfilesAsync()
         {
             return _deviceProfileRepository.GetAll();

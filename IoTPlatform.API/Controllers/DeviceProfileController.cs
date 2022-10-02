@@ -59,6 +59,12 @@ namespace IoTPlatform.API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateDeviceProfile(string id, DeviceProfile deviceProfile)
         {
+            var obj = await _deviceProfileService.FindDeviceProfileByIdAsync(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
             var result = await _deviceProfileService.UpdateDeviceProfleAsync(id, deviceProfile);
 
             var userInfor = _userService.GetUserInformation();
@@ -89,6 +95,21 @@ namespace IoTPlatform.API.Controllers
         public async Task<ActionResult> FindDeviceProfileByName(string name)
         {
             var result = await _deviceProfileService.FindDeviceProfileByNameAsync(name);
+            if (result.Count() == 0)
+            {
+                return NotFound();
+            }    
+            return new JsonResult(new { result });
+        }
+
+        [HttpGet("{ruleChainID}")]
+        public async Task<ActionResult> FindDeviceProfileByRuleChainID(string ruleChainID)
+        {
+            var result = await _deviceProfileService.FindDeviceProifleByRuleChainIDAsync(ruleChainID);
+            if (result.Count() == 0)
+            {
+                return NotFound();
+            }
             return new JsonResult(new { result });
         }
 

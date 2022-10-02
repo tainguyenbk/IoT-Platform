@@ -16,11 +16,11 @@ namespace IoTPlatform.Domain.Models.DeviceProfiles
         [BsonIgnoreIfDefault]
         public string? DeviceProfileID { get; set; }
         public DateTime CreatedTime { get; set; }
-        public string? DeviceProfileName { get; set; }
-        public string RuleChain { get; set; }
-        public List<DeviceProfileImage> Images { get; set; } = new List<DeviceProfileImage>();
-        public string Description { get; set; }
-        public string TransportType { get; set; }
-        public bool Default { get; set; }
+        public string DeviceProfileName { get; set; }
+        public string? RuleChainID { get; set; }
+        public List<DeviceProfileImage>? Images { get; set; } = new List<DeviceProfileImage>();
+        public string? Description { get; set; }
+        public string? TransportType { get; set; }
+        public bool? Default { get; set; }
     }
 }

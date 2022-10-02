@@ -25,6 +25,13 @@ namespace IoTPlatform.Infrastructure.Repositories
             return res;
         }
 
+        public async Task<IEnumerable<DeviceProfile>> FindDeviceProifleByRuleChainID(string ruleChainID)
+        {
+            var filter = Builders<DeviceProfile>.Filter.Eq("RuleChainID", ruleChainID);
+            var res = await DbSet.Find(filter).ToListAsync();
+            return res;
+        }
+
         public async Task<DeviceProfile> UploadImage(string id, List<DeviceProfileImage> deviceProfileImage)
         {
             var filter = Builders<DeviceProfile>.Filter.Eq("DeviceProfileID", id);
