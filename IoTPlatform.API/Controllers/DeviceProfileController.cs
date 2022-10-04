@@ -48,6 +48,17 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> FindDeviceProfileByID(string id)
         {
+            var result = await _deviceProfileService.FindDeviceProfileByIdAsync(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return new JsonResult(new { result });
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> FindDeviceProfileDetailByID(string id)
+        {
             var result = await _deviceProfileService.FindDeviceProfileDetailByIdAsync(id);
             if (result == null)
             {
