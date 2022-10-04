@@ -16,9 +16,9 @@ namespace IoTPlatform.Domain.Models.RuleChains
         [BsonIgnoreIfDefault]
         public string? RuleChainID { get; set; }
         public DateTime CreatedTime { get; set; }
-        public string? RuleChainName { get; set; }
-        public bool DebugMode { get; set; }
-        public bool Root { get; set; }
-        public string Description { get; set; }
+        public string RuleChainName { get; set; }
+        public bool? DebugMode { get; set; }
+        public bool? Root { get; set; }
+        public string? Description { get; set; }
     }
 }
