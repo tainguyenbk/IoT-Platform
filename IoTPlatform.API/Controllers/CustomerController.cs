@@ -53,6 +53,18 @@ namespace IoTPlatform.API.Controllers
             return new JsonResult(new { result });
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult> FindCustomerDetalByID(string id)
+        {
+            var result = await _customerService.FindCustomerDetailByIdAsync(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return new JsonResult(new { result });
+        }
+
+
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateCustomer(string id, Customer customer)
         {
