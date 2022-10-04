@@ -25,6 +25,39 @@ namespace IoTPlatform.Infrastructure.Repositories
             return res;
         }
 
+        public async Task<IEnumerable<DeviceProfile>> FindDeviceProifleByRuleChainID(string ruleChainID)
+        {
+            var filter = Builders<DeviceProfile>.Filter.Eq("RuleChainID", ruleChainID);
+            var res = await DbSet.Find(filter).ToListAsync();
+            return res;
+        }
+
+        public async Task<DeviceProfile> MakeDeviceProfileDefaultAsync(string id)
+        {
+            var filter = Builders<DeviceProfile>.Filter.Eq("DeviceProfileID", id);
+            var deviceProfile = await DbSet.Find(filter).ToListAsync();
+            var newDeviceProfile = new DeviceProfile();
+
+            foreach (var item in deviceProfile)
+            {
+                newDeviceProfile = new DeviceProfile()
+                {
+                    DeviceProfileID = item.DeviceProfileID,
+                    CreatedTime = item.CreatedTime,
+                    DeviceProfileName = item.DeviceProfileName,
+                    RuleChainID = item.RuleChainID,
+                    Images = item.Images,
+                    Description = item.Description,
+                    TransportType = item.TransportType,
+                    Default = true
+                };
+            }
+
+            await DbSet.ReplaceOneAsync(filter, newDeviceProfile);
+            var res = await DbSet.Find(filter).SingleOrDefaultAsync();
+            return res;
+        }
+
         public async Task<DeviceProfile> UploadImage(string id, List<DeviceProfileImage> deviceProfileImage)
         {
             var filter = Builders<DeviceProfile>.Filter.Eq("DeviceProfileID", id);

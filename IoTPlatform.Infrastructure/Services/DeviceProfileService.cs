@@ -12,10 +12,12 @@ namespace IoTPlatform.Infrastructure.Services
     public class DeviceProfileService : IDeviceProfileService
     {
         private readonly IDeviceProfileRepository _deviceProfileRepository;
+        private readonly IAuditLogRepository _auditLogRepository;
 
-        public DeviceProfileService(IDeviceProfileRepository deviceProfileRepository)
+        public DeviceProfileService(IDeviceProfileRepository deviceProfileRepository, IAuditLogRepository auditLogRepository)
         {
             _deviceProfileRepository = deviceProfileRepository;
+            _auditLogRepository = auditLogRepository;
         }
 
         public Task<DeviceProfile> AddDeviceProfileAsync(DeviceProfile deviceProfile)
@@ -33,9 +35,49 @@ namespace IoTPlatform.Infrastructure.Services
             return _deviceProfileRepository.FindDeviceProifleByName(name);
         }
 
-        public Task<IEnumerable<DeviceProfile>> GetAllDeviceProfilesAsync()
+        public async Task<DeviceProfileResponse?> FindDeviceProfileDetailByIdAsync(string id)
         {
-            return _deviceProfileRepository.GetAll();
+            var deviceProfile = await _deviceProfileRepository.GetById(id);
+
+            if (deviceProfile != null)
+            {
+                var auditLogs = await _auditLogRepository.FindAuditLogsByEntityID(id);
+                DeviceProfileResponse deviceProfileResponse = new DeviceProfileResponse()
+                {
+                    DeviceProfile = deviceProfile,
+                    AudiLogs = auditLogs.ToList()
+                };
+                return deviceProfileResponse;
+            }
+            return null;
+        }
+
+        public Task<IEnumerable<DeviceProfile>> FindDeviceProifleByRuleChainIDAsync(string ruleChainID)
+        {
+            return _deviceProfileRepository.FindDeviceProifleByRuleChainID(ruleChainID);
+        }
+
+        public async Task<IEnumerable<DeviceProfileResponse>> GetAllDeviceProfilesAsync()
+        {
+            var result = new List<DeviceProfileResponse>();
+            var listDeviceProfile = await _deviceProfileRepository.GetAll();
+            
+            foreach (var deviceProfile in listDeviceProfile)
+            {
+                var auditLogs = await _auditLogRepository.FindAuditLogsByEntityID(deviceProfile.DeviceProfileID);
+                DeviceProfileResponse deviceProfileResponse = new DeviceProfileResponse()
+                {
+                    DeviceProfile = deviceProfile,
+                    AudiLogs = auditLogs.ToList(),
+                };
+                result.Add(deviceProfileResponse);
+            }
+            return result;
+        }
+
+        public async Task<DeviceProfile> MakeDeviceProfileDefaultAsync(string id)
+        {
+            return await _deviceProfileRepository.MakeDeviceProfileDefaultAsync(id);
         }
 
         public Task<bool> RemoveDeviceProfileAsync(string id)

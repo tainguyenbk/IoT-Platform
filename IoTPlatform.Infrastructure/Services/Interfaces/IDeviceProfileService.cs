@@ -12,10 +12,13 @@ namespace IoTPlatform.Infrastructure.Services.Interfaces
     {
         Task<DeviceProfile> AddDeviceProfileAsync(DeviceProfile deviceProfile);
         Task<DeviceProfile> FindDeviceProfileByIdAsync(string id);
-        Task<IEnumerable<DeviceProfile>> GetAllDeviceProfilesAsync();
+        Task<DeviceProfileResponse> FindDeviceProfileDetailByIdAsync(string id);
+        Task<IEnumerable<DeviceProfileResponse>> GetAllDeviceProfilesAsync();
         Task<DeviceProfile> UpdateDeviceProfleAsync(string id, DeviceProfile deviceProfile);
         Task<bool> RemoveDeviceProfileAsync(string id);
         Task<IEnumerable<DeviceProfile>> FindDeviceProfileByNameAsync(string name);
+        Task<IEnumerable<DeviceProfile>> FindDeviceProifleByRuleChainIDAsync(string ruleChainID);
         Task<DeviceProfile> UploadImageAsync(string id, List<DeviceProfileImage> images);
+        Task<DeviceProfile> MakeDeviceProfileDefaultAsync(string id);
     }
 }

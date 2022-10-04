@@ -11,6 +11,8 @@ namespace IoTPlatform.Infrastructure.Repositories.Interfaces
     public interface IDeviceProfileRepository : IBaseRepository<DeviceProfile>
     {
         Task<IEnumerable<DeviceProfile>> FindDeviceProifleByName(string name);
+        Task<IEnumerable<DeviceProfile>> FindDeviceProifleByRuleChainID(string ruleChainID);
         Task<DeviceProfile> UploadImage(string id, List<DeviceProfileImage> deviceProfileImage);
+        Task<DeviceProfile> MakeDeviceProfileDefaultAsync(string id);
     }
 }
