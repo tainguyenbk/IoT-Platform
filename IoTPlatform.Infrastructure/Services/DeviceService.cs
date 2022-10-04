@@ -41,7 +41,7 @@ namespace IoTPlatform.Infrastructure.Services
             return await _deviceRepository.AssignToCustomer(id, customerID);
         }
 
-        public async Task<DeviceResponse?> FindAllInDeviceByID(string id)
+        public async Task<DeviceResponse?> FindDeviceDetailByIDAsync(string id)
         {
             var device = await _deviceRepository.GetById(id);
 
