@@ -12,30 +12,64 @@ namespace IoTPlatform.Infrastructure.Services
     public class RuleChainService : IRuleChainService
     {
         private readonly IRuleChainRepository _ruleChainRepository;
+        private readonly IAuditLogRepository _auditLogRepository;
 
-        public RuleChainService(IRuleChainRepository ruleChainRepository)
+        public RuleChainService(IRuleChainRepository ruleChainRepository, IAuditLogRepository auditLogRepository)
         {
             _ruleChainRepository = ruleChainRepository;
+            _auditLogRepository = auditLogRepository;
         }
 
-        public Task<RuleChain> AddRuleChainAsync(RuleChain ruleChain)
+        public async Task<RuleChain> AddRuleChainAsync(RuleChain ruleChain)
         {
-            return _ruleChainRepository.Add(ruleChain);
+            return await _ruleChainRepository.Add(ruleChain);
         }
 
-        public Task<RuleChain> FindRuleChainByIdAsync(string id)
+        public async Task<RuleChain> FindRuleChainByIdAsync(string id)
         {
-            return _ruleChainRepository.GetById(id);
+            return await _ruleChainRepository.GetById(id);
         }
 
-        public Task<IEnumerable<RuleChain>> FindRuleChainByNameAsync(string name)
+        public async Task<IEnumerable<RuleChain>> FindRuleChainByNameAsync(string name)
         {
-            return _ruleChainRepository.FindRuleChainByName(name);
+            return await _ruleChainRepository.FindRuleChainByName(name);
         }
 
-        public Task<IEnumerable<RuleChain>> GetAllRuleChainsAsync()
+        public async Task<RuleChainResponse> FindRuleChainDetailByIdAsync(string id)
         {
-            return _ruleChainRepository.GetAll();
+            var ruleChain = await _ruleChainRepository.GetById(id);
+
+            if (ruleChain != null)
+            {
+                var auditLogs = await _auditLogRepository.FindAuditLogsByEntityID(ruleChain.RuleChainID);
+
+                RuleChainResponse ruleChainResponse = new RuleChainResponse()
+                {
+                    RuleChain = ruleChain,
+                    AuditLogs = auditLogs.ToList()
+                };
+                return ruleChainResponse;
+            }
+            return null;
+        }
+
+        public async Task<IEnumerable<RuleChainResponse>> GetAllRuleChainsAsync()
+        {
+            var result = new List<RuleChainResponse>();
+            var listRuleChain = await _ruleChainRepository.GetAll();
+
+            foreach (var ruleChain in listRuleChain)
+            {
+                var auditLogs = await _auditLogRepository.FindAuditLogsByEntityID(ruleChain.RuleChainID);
+
+                RuleChainResponse ruleChainResponse = new RuleChainResponse()
+                {
+                    RuleChain = ruleChain,
+                    AuditLogs = auditLogs.ToList()
+                };
+                result.Add(ruleChainResponse);
+            }
+            return result;
         }
 
         public Task<bool> RemoveRuleChainAsync(string id)

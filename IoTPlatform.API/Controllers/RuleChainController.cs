@@ -54,6 +54,17 @@ namespace IoTPlatform.API.Controllers
             return new JsonResult(new { result });
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult> FindRuleChainDetailByID(string id)
+        {
+            var result = await _ruleChainService.FindRuleChainDetailByIdAsync(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return new JsonResult(new { result });
+        }
+
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateRuleChain(string id, RuleChain ruleChain)
         {

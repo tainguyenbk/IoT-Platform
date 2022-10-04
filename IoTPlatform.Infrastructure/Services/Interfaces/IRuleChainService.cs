@@ -11,7 +11,8 @@ namespace IoTPlatform.Infrastructure.Services.Interfaces
     {
         Task<RuleChain> AddRuleChainAsync(RuleChain ruleChain);
         Task<RuleChain> FindRuleChainByIdAsync(string id);
-        Task<IEnumerable<RuleChain>> GetAllRuleChainsAsync();
+        Task<RuleChainResponse> FindRuleChainDetailByIdAsync(string id);
+        Task<IEnumerable<RuleChainResponse>> GetAllRuleChainsAsync();
         Task<RuleChain> UpdateRuleChainAsync(string id, RuleChain ruleChain);
         Task<bool> RemoveRuleChainAsync(string id);
         Task<IEnumerable<RuleChain>> FindRuleChainByNameAsync(string name);
