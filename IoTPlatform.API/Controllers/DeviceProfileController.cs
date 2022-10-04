@@ -151,5 +151,17 @@ namespace IoTPlatform.API.Controllers
             var result = await _deviceProfileService.UploadImageAsync(id, images);
             return new JsonResult(new { result });
         }
+
+        [HttpPost("{id}")]
+        public async Task<ActionResult> MakeDeviceProfileDefault(string id)
+        {
+            var obj = await _deviceProfileService.FindDeviceProfileByIdAsync(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            var result = await _deviceProfileService.MakeDeviceProfileDefaultAsync(id);
+            return new JsonResult(new { result });
+        }
     }
 }

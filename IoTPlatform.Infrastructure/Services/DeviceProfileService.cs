@@ -75,6 +75,11 @@ namespace IoTPlatform.Infrastructure.Services
             return result;
         }
 
+        public async Task<DeviceProfile> MakeDeviceProfileDefaultAsync(string id)
+        {
+            return await _deviceProfileRepository.MakeDeviceProfileDefaultAsync(id);
+        }
+
         public Task<bool> RemoveDeviceProfileAsync(string id)
         {
             return _deviceProfileRepository.Remove(id);

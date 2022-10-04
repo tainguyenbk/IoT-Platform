@@ -19,5 +19,6 @@ namespace IoTPlatform.Infrastructure.Services.Interfaces
         Task<IEnumerable<DeviceProfile>> FindDeviceProfileByNameAsync(string name);
         Task<IEnumerable<DeviceProfile>> FindDeviceProifleByRuleChainIDAsync(string ruleChainID);
         Task<DeviceProfile> UploadImageAsync(string id, List<DeviceProfileImage> images);
+        Task<DeviceProfile> MakeDeviceProfileDefaultAsync(string id);
     }
 }

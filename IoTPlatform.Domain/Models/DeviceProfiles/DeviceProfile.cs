@@ -21,6 +21,7 @@ namespace IoTPlatform.Domain.Models.DeviceProfiles
         public List<DeviceProfileImage>? Images { get; set; } = new List<DeviceProfileImage>();
         public string? Description { get; set; }
         public string? TransportType { get; set; }
+        [BsonIgnoreIfDefault]
         public bool? Default { get; set; }
     }
 }
