@@ -38,7 +38,7 @@ namespace IoTPlatform.API.Controllers
         public async Task<ActionResult> GetAllDeviceProfiles()
         {
             var result = await _deviceProfileService.GetAllDeviceProfilesAsync();
-            if (result.Count() == 0)
+            if (!result.Any())
             {
                 return NotFound();
             }
@@ -77,15 +77,15 @@ namespace IoTPlatform.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveDeviceProfile(string id)
         {
-            var removeDeviceProfile = await _deviceProfileService.FindDeviceProfileByIdAsync(id);
-            if (removeDeviceProfile == null)
+            var obj = await _deviceProfileService.FindDeviceProfileByIdAsync(id);
+            if (obj == null)
             {
                 return NotFound();
             }
 
             var userInfor = _userService.GetUserInformation();
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.DeviceProfile, removeDeviceProfile.DeviceProfileID,
-                removeDeviceProfile.DeviceProfileName, userInfor[0], userInfor[1], ActionType.Delete);
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.DeviceProfile, obj.DeviceProfileID,
+                obj.DeviceProfileName, userInfor[0], userInfor[1], ActionType.Delete);
 
             var result = await _deviceProfileService.RemoveDeviceProfileAsync(id);
             return new JsonResult(new { result });
@@ -95,7 +95,7 @@ namespace IoTPlatform.API.Controllers
         public async Task<ActionResult> FindDeviceProfileByName(string name)
         {
             var result = await _deviceProfileService.FindDeviceProfileByNameAsync(name);
-            if (result.Count() == 0)
+            if (!result.Any())
             {
                 return NotFound();
             }    
@@ -106,7 +106,7 @@ namespace IoTPlatform.API.Controllers
         public async Task<ActionResult> FindDeviceProfileByRuleChainID(string ruleChainID)
         {
             var result = await _deviceProfileService.FindDeviceProifleByRuleChainIDAsync(ruleChainID);
-            if (result.Count() == 0)
+            if (!result.Any())
             {
                 return NotFound();
             }
