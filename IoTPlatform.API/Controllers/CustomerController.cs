@@ -35,7 +35,7 @@ namespace IoTPlatform.API.Controllers
         public async Task<ActionResult> GetAllCustomers()
         {
             var result = await _customerService.GetAllCustomersAsync();
-            if (result.Count() == 0)
+            if (!result.Any())
             {
                 return NotFound();
             }
@@ -54,7 +54,7 @@ namespace IoTPlatform.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> FindCustomerDetalByID(string id)
+        public async Task<ActionResult> FindCustomerDetailByID(string id)
         {
             var result = await _customerService.FindCustomerDetailByIdAsync(id);
             if (result == null)
@@ -68,6 +68,12 @@ namespace IoTPlatform.API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateCustomer(string id, Customer customer)
         {
+            var obj = await _customerService.FindCustomerByIdAsync(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
             var result = await _customerService.UpdateCustomerAsync(id, customer);
 
             var userInfor = _userService.GetUserInformation();
@@ -79,14 +85,14 @@ namespace IoTPlatform.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveCustomer(string id)
         {
-            var removeCustomer = await _customerService.FindCustomerByIdAsync(id);
-            if (removeCustomer == null)
+            var obj = await _customerService.FindCustomerByIdAsync(id);
+            if (obj == null)
             {
                 return NotFound();
             }
 
             var userInfor = _userService.GetUserInformation();
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Custormer, removeCustomer.CustomerID, removeCustomer.Title, userInfor[0], userInfor[1], ActionType.Delete);
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Custormer, obj.CustomerID, obj.Title, userInfor[0], userInfor[1], ActionType.Delete);
             
             var result = await _customerService.RemoveCustomerAsync(id);
             return new JsonResult(new { result });
@@ -96,7 +102,7 @@ namespace IoTPlatform.API.Controllers
         public async Task<ActionResult> FindCustomerByName(string title)
         {
             var result = await _customerService.FindCustomerByTitleAsync(title);
-            if (result == null)
+            if (!result.Any())
             {
                 return NotFound();
             }
