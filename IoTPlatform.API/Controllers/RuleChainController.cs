@@ -104,5 +104,16 @@ namespace IoTPlatform.API.Controllers
             }
             return new JsonResult(new { result });
         }
+
+        [HttpPost("{id}")]
+        public async Task<ActionResult> MakeRuleChainRoot(string id)
+        {
+            var result = await _ruleChainService.MakeRuleChainRootAsync(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return new JsonResult(new { result });
+        }
     }
 }

@@ -72,6 +72,11 @@ namespace IoTPlatform.Infrastructure.Services
             return result;
         }
 
+        public async Task<RuleChain> MakeRuleChainRootAsync(string id)
+        {
+            return await _ruleChainRepository.MakeRuleChainRoot(id);
+        }
+
         public Task<bool> RemoveRuleChainAsync(string id)
         {
             return _ruleChainRepository.Remove(id);
