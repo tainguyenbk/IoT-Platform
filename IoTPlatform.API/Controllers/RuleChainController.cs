@@ -36,7 +36,7 @@ namespace IoTPlatform.API.Controllers
         public async Task<ActionResult> GetAllRuleChains()
         {
             var result = await _ruleChainService.GetAllRuleChainsAsync();
-            if (result.Count() == 0)
+            if (!result.Any())
             {
                 return NotFound();
             }
@@ -68,6 +68,11 @@ namespace IoTPlatform.API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateRuleChain(string id, RuleChain ruleChain)
         {
+            var obj = await _ruleChainService.FindRuleChainByIdAsync(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
             var result = await _ruleChainService.UpdateRuleChainAsync(id, ruleChain);
 
             var userInfor = _userService.GetUserInformation();
@@ -80,15 +85,15 @@ namespace IoTPlatform.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveRuleChain(string id)
         { 
-            var removeRuleChain = await _ruleChainService.FindRuleChainByIdAsync(id);
-            if (removeRuleChain == null)
+            var obj = await _ruleChainService.FindRuleChainByIdAsync(id);
+            if (obj == null)
             {
                 return NotFound();
             }
 
             var userInfor = _userService.GetUserInformation();
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.RuleChain, removeRuleChain.RuleChainID,
-                removeRuleChain.RuleChainName, userInfor[0], userInfor[1], ActionType.Delete);
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.RuleChain, obj.RuleChainID,
+                obj.RuleChainName, userInfor[0], userInfor[1], ActionType.Delete);
            
             var result = await _ruleChainService.RemoveRuleChainAsync(id);
             return new JsonResult(new { result });
@@ -98,7 +103,7 @@ namespace IoTPlatform.API.Controllers
         public async Task<ActionResult> FindRuleChainByName(string name)
         {
             var result = await _ruleChainService.FindRuleChainByNameAsync(name);
-            if (result == null)
+            if (!result.Any())
             {
                 return NotFound();
             }
@@ -108,11 +113,12 @@ namespace IoTPlatform.API.Controllers
         [HttpPost("{id}")]
         public async Task<ActionResult> MakeRuleChainRoot(string id)
         {
-            var result = await _ruleChainService.MakeRuleChainRootAsync(id);
-            if (result == null)
+            var obj = await _ruleChainService.FindRuleChainByIdAsync(id);
+            if (obj == null)
             {
                 return NotFound();
             }
+            var result = await _ruleChainService.MakeRuleChainRootAsync(id);
             return new JsonResult(new { result });
         }
     }
