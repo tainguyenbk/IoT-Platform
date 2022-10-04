@@ -11,7 +11,8 @@ namespace IoTPlatform.Infrastructure.Services.Interfaces
     {
         Task<Customer> AddCustomerAsync(Customer Customer);
         Task<Customer> FindCustomerByIdAsync(string id);
-        Task<IEnumerable<Customer>> GetAllCustomersAsync();
+        Task<CustomerResponse> FindCustomerDetailByIdAsync(string id);
+        Task<IEnumerable<CustomerResponse>> GetAllCustomersAsync();
         Task<Customer> UpdateCustomerAsync(string id, Customer Customer);
         Task<bool> RemoveCustomerAsync(string id);
         Task<IEnumerable<Customer>> FindCustomerByTitleAsync(string title);
