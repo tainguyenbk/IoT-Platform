@@ -11,5 +11,6 @@ namespace IoTPlatform.Infrastructure.Repositories.Interfaces
     public interface IRuleChainRepository : IBaseRepository<RuleChain>
     {
         Task<IEnumerable<RuleChain>> FindRuleChainByName(string name);
+        Task<RuleChain> MakeRuleChainRoot(string id);
     }
 }
