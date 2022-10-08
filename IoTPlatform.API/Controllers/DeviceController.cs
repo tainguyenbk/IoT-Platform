@@ -23,16 +23,31 @@ namespace IoTPlatform.API.Controllers
             _auditLogService = auditLogService;
         }
 
+        private string getResponseStatus()
+        {
+            string status;
+            if (Response.StatusCode == 200)
+            {
+                status = "Success";
+            }
+            else
+            {
+                status = "Failure";
+            }
+            return status;
+        }
+
         [HttpPost]
         public async Task<ActionResult> AddDevice(Device device)
         {
+            string responseStatus;
             var result = await _deviceService.AddDeviceAsync(device);
 
             var userInfor = _userService.GetUserInformation();
-            
-            
+            var status = getResponseStatus();
+
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID,
-                result.DeviceName, userInfor[0], userInfor[1], ActionType.Create, "");
+                result.DeviceName, userInfor[0], userInfor[1], ActionType.Create, status);
 
             return new JsonResult(new { result });
         }
@@ -81,8 +96,9 @@ namespace IoTPlatform.API.Controllers
             var result = await _deviceService.UpdateDeviceAsync(id, device);
 
             var userInfor = _userService.GetUserInformation();
+            var status = getResponseStatus();
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID,
-                result.DeviceName, userInfor[0], userInfor[1], ActionType.Update, "");
+                result.DeviceName, userInfor[0], userInfor[1], ActionType.Update, status);
 
             return new JsonResult(new { result });
 
@@ -98,9 +114,9 @@ namespace IoTPlatform.API.Controllers
             }
 
             var userInfor = _userService.GetUserInformation();
-
+            var status = getResponseStatus();
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, obj.DeviceID,
-                obj.DeviceName, userInfor[0], userInfor[1], ActionType.Delete, "");
+                obj.DeviceName, userInfor[0], userInfor[1], ActionType.Delete, status);
 
             var result = await _deviceService.RemoveDeviceAsync(id);
             return new JsonResult(new { result });
