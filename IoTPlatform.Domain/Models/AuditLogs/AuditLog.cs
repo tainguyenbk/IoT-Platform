@@ -26,7 +26,7 @@ namespace IoTPlatform.Domain.Models.AuditLogs
         public string ActionTypeName { get; set; }
         public string Status { get; set; }
 
-        public AuditLog(DateTime timeStamp, EntityType entityType, string entityID, string entityName, string userName, string userID, ActionType actionType)
+        public AuditLog(DateTime timeStamp, EntityType entityType, string entityID, string entityName, string userName, string userID, ActionType actionType, string status)
         {
             TimeStamp = timeStamp;
             EntityType = entityType;
@@ -37,6 +37,7 @@ namespace IoTPlatform.Domain.Models.AuditLogs
             UserID = userID;
             ActionType = actionType;
             ActionTypeName = actionType.ToString();
+            Status = status;
         }
     }
 }

@@ -18,9 +18,9 @@ namespace IoTPlatform.Infrastructure.Services
             _auditLogRepository = auditLogRepository;
         }
 
-        public async Task<AuditLog> AddAnAuditLogAsync(DateTime timeStamp, EntityType entityType, string entityID, string entityName, string userName, string userID, ActionType actionType)
+        public async Task<AuditLog> AddAnAuditLogAsync(DateTime timeStamp, EntityType entityType, string entityID, string entityName, string userName, string userID, ActionType actionType, string status)
         {
-            var auditLog = new AuditLog(timeStamp, entityType, entityID, entityName, userName, userID, actionType);
+            var auditLog = new AuditLog(timeStamp, entityType, entityID, entityName, userName, userID, actionType, status);
             return await _auditLogRepository.Add(auditLog);
         }
 

@@ -48,7 +48,7 @@ namespace IoTPlatform.API.Controllers
             var result = await _clientAttributeService.UpdateClientAttributeAsync(id, clientAttribute);
 
             var userInfor = _userService.GetUserInformation();
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.ClientAttribute, result.AttributeID, "", userInfor[0], userInfor[1], ActionType.Create);
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.ClientAttribute, result.AttributeID, "", userInfor[0], userInfor[1], ActionType.Create, "");
 
             return new JsonResult(new { result });
         }
@@ -63,7 +63,7 @@ namespace IoTPlatform.API.Controllers
             }
 
             var userInfor = _userService.GetUserInformation();
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.ClientAttribute, removeClientAttribute.AttributeID, "", userInfor[0], userInfor[1], ActionType.Delete);
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.ClientAttribute, removeClientAttribute.AttributeID, "", userInfor[0], userInfor[1], ActionType.Delete, "");
             
             var result = await _clientAttributeService.RemoveClientAttributeAsync(id);
             return new JsonResult(new { result });

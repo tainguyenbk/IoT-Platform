@@ -27,7 +27,7 @@ namespace IoTPlatform.API.Controllers
 
             var userInfor = _userService.GetUserInformation();
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.SharedAttribute, result.AttributeID,
-                "", userInfor[0], userInfor[1], ActionType.Create);
+                "", userInfor[0], userInfor[1], ActionType.Create,"");
 
             return new JsonResult(new { result });
         }
@@ -61,7 +61,7 @@ namespace IoTPlatform.API.Controllers
 
             var userInfor = _userService.GetUserInformation();
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.SharedAttribute, result.AttributeID,
-                "", userInfor[0], userInfor[1], ActionType.Update);
+                "", userInfor[0], userInfor[1], ActionType.Update, "");
 
             return new JsonResult(new { result });
         }
@@ -77,7 +77,7 @@ namespace IoTPlatform.API.Controllers
 
             var userInfor = _userService.GetUserInformation();
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.SharedAttribute, removeAttribute.AttributeID,
-                "", userInfor[0], userInfor[1], ActionType.Delete);
+                "", userInfor[0], userInfor[1], ActionType.Delete, "");
 
             var result = await _sharedAttributeService.RemoveSharedAttributeAsync(id);
             return new JsonResult(new { result });

@@ -27,7 +27,7 @@ namespace IoTPlatform.API.Controllers
 
             var userInfor = _userService.GetUserInformation();
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.RuleChain, result.RuleChainID,
-                result.RuleChainName, userInfor[0], userInfor[1], ActionType.Create);
+                result.RuleChainName, userInfor[0], userInfor[1], ActionType.Create, "");
 
             return new JsonResult(new { result });
         }
@@ -77,7 +77,7 @@ namespace IoTPlatform.API.Controllers
 
             var userInfor = _userService.GetUserInformation();
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.RuleChain, result.RuleChainID,
-                result.RuleChainName, userInfor[0], userInfor[1], ActionType.Update);
+                result.RuleChainName, userInfor[0], userInfor[1], ActionType.Update,"");
 
             return new JsonResult(new { result });
         }
@@ -93,7 +93,7 @@ namespace IoTPlatform.API.Controllers
 
             var userInfor = _userService.GetUserInformation();
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.RuleChain, obj.RuleChainID,
-                obj.RuleChainName, userInfor[0], userInfor[1], ActionType.Delete);
+                obj.RuleChainName, userInfor[0], userInfor[1], ActionType.Delete,"");
            
             var result = await _ruleChainService.RemoveRuleChainAsync(id);
             return new JsonResult(new { result });

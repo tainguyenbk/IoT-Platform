@@ -26,7 +26,7 @@ namespace IoTPlatform.API.Controllers
 
             var userInfor = _userService.GetUserInformation();
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.ServerAttribute, result.AttributeID,
-                "", userInfor[0], userInfor[1], ActionType.Create);
+                "", userInfor[0], userInfor[1], ActionType.Create,"");
 
             return new JsonResult(new { result });
         }
@@ -60,7 +60,7 @@ namespace IoTPlatform.API.Controllers
 
             var userInfor = _userService.GetUserInformation();
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.ServerAttribute, result.AttributeID,
-                "", userInfor[0], userInfor[1], ActionType.Update);
+                "", userInfor[0], userInfor[1], ActionType.Update, "");
 
             return new JsonResult(new { result });
         }
@@ -76,7 +76,7 @@ namespace IoTPlatform.API.Controllers
 
             var userInfor = _userService.GetUserInformation();
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.ServerAttribute, removeAttribute.AttributeID,
-                "", userInfor[0], userInfor[1], ActionType.Create);
+                "", userInfor[0], userInfor[1], ActionType.Create, "");
 
             var result = await _serverAttributeService.RemoveServerAttributeAsync(id);
             return new JsonResult(new { result });
