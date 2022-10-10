@@ -22,14 +22,29 @@ namespace IoTPlatform.API.Controllers
             _auditLogService = auditLogService;
         }
 
+        private string GetResponseStatus()
+        {
+            string status;
+            if (Response.StatusCode == 200)
+            {
+                status = "Success";
+            }
+            else
+            {
+                status = "Failure";
+            }
+            return status;
+        }
+
         [HttpPost]
         public async Task<ActionResult> AddDeviceProfile(DeviceProfile deviceProfile)
         {
             var result = await _deviceProfileService.AddDeviceProfileAsync(deviceProfile);
 
             var userInfor = _userService.GetUserInformation();
+            var status = GetResponseStatus();
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.DeviceProfile, result.DeviceProfileID, 
-                result.DeviceProfileName, userInfor[0], userInfor[1], ActionType.Create, "");
+                result.DeviceProfileName, userInfor[0], userInfor[1], ActionType.Create, status);
             
             return new JsonResult(new { result });
         }
@@ -79,8 +94,9 @@ namespace IoTPlatform.API.Controllers
             var result = await _deviceProfileService.UpdateDeviceProfleAsync(id, deviceProfile);
 
             var userInfor = _userService.GetUserInformation();
+            var status = GetResponseStatus();
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.DeviceProfile, result.DeviceProfileID, 
-                result.DeviceProfileName, userInfor[0], userInfor[1], ActionType.Update, "");
+                result.DeviceProfileName, userInfor[0], userInfor[1], ActionType.Update, status);
 
             return new JsonResult(new { result });
         }
@@ -95,8 +111,9 @@ namespace IoTPlatform.API.Controllers
             }
 
             var userInfor = _userService.GetUserInformation();
+            var status = GetResponseStatus();
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.DeviceProfile, obj.DeviceProfileID,
-                obj.DeviceProfileName, userInfor[0], userInfor[1], ActionType.Delete, "");
+                obj.DeviceProfileName, userInfor[0], userInfor[1], ActionType.Delete, status);
 
             var result = await _deviceProfileService.RemoveDeviceProfileAsync(id);
             return new JsonResult(new { result });
@@ -127,7 +144,7 @@ namespace IoTPlatform.API.Controllers
         [HttpPost]
         public async Task<ActionResult> UploadDeviceProfileImage(string id, List<IFormFile> files)
         {
-            List<DeviceProfileImage> images = new List<DeviceProfileImage>();
+            var images = new List<DeviceProfileImage>();
             string fileFolder = @"Files\Images\";
 
             foreach (var formFile in files)
@@ -171,7 +188,14 @@ namespace IoTPlatform.API.Controllers
             {
                 return NotFound();
             }
+
             var result = await _deviceProfileService.MakeDeviceProfileDefaultAsync(id);
+
+            var userInfor = _userService.GetUserInformation();
+            var status = GetResponseStatus();
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.DeviceProfile, result.DeviceProfileID,
+                result.DeviceProfileName, userInfor[0], userInfor[1], ActionType.MakeDefault, status);
+
             return new JsonResult(new { result });
         }
     }
