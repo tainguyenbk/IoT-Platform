@@ -10,9 +10,13 @@ namespace IoTPlatform.Domain.Models.AuditLogs
 {
     public enum ActionType
     {
+        [Description("Create")]
         Create,
+        [Description("Read")]
         Read,
+        [Description("Update")]
         Update,
+        [Description("Delete")]
         Delete,
     }
 }
