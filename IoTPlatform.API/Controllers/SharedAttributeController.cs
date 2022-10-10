@@ -20,14 +20,29 @@ namespace IoTPlatform.API.Controllers
             _auditLogService = auditLogService;
         }
 
+        private string GetResponseStatus()
+        {
+            string status;
+            if (Response.StatusCode == 200)
+            {
+                status = "Success";
+            }
+            else
+            {
+                status = "Failure";
+            }
+            return status;
+        }
+
         [HttpPost]
         public async Task<ActionResult> AddSharedAttribute(SharedAttribute sharedAttribute)
         {
             var result = await _sharedAttributeService.AddSharedAttributeAsync(sharedAttribute);
 
             var userInfor = _userService.GetUserInformation();
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.SharedAttribute, result.AttributeID,
-                "", userInfor[0], userInfor[1], ActionType.Create,"");
+            var status = GetResponseStatus();
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID,
+                "", userInfor[0], userInfor[1], ActionType.CreateAttribute, status);
 
             return new JsonResult(new { result });
         }
@@ -60,8 +75,9 @@ namespace IoTPlatform.API.Controllers
             var result = await _sharedAttributeService.UpdateSharedAttributeAsync(id, sharedAttribute);
 
             var userInfor = _userService.GetUserInformation();
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.SharedAttribute, result.AttributeID,
-                "", userInfor[0], userInfor[1], ActionType.Update, "");
+            var status = GetResponseStatus();
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID,
+                "", userInfor[0], userInfor[1], ActionType.UpdateAttribute, status);
 
             return new JsonResult(new { result });
         }
@@ -69,15 +85,16 @@ namespace IoTPlatform.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveSharedAttribute(string id)
         {             
-            var removeAttribute = await _sharedAttributeService.FindSharedAttributeByIdAsync(id);
-            if (removeAttribute == null)
+            var obj = await _sharedAttributeService.FindSharedAttributeByIdAsync(id);
+            if (obj == null)
             {
                 return NotFound();
             }
 
             var userInfor = _userService.GetUserInformation();
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.SharedAttribute, removeAttribute.AttributeID,
-                "", userInfor[0], userInfor[1], ActionType.Delete, "");
+            var status = GetResponseStatus();
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, obj.DeviceID,
+                "", userInfor[0], userInfor[1], ActionType.DeleteAttribute, status);
 
             var result = await _sharedAttributeService.RemoveSharedAttributeAsync(id);
             return new JsonResult(new { result });

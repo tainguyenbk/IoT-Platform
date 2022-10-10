@@ -20,6 +20,20 @@ namespace IoTPlatform.API.Controllers
             _auditLogService = auditLogService;
         }
 
+        private string GetResponseStatus()
+        {
+            string status;
+            if (Response.StatusCode == 200)
+            {
+                status = "Success";
+            }
+            else
+            {
+                status = "Failure";
+            }
+            return status;
+        }
+
         [HttpGet]
         public async Task<ActionResult> GetAllClientAttributes()
         {
@@ -48,7 +62,9 @@ namespace IoTPlatform.API.Controllers
             var result = await _clientAttributeService.UpdateClientAttributeAsync(id, clientAttribute);
 
             var userInfor = _userService.GetUserInformation();
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.ClientAttribute, result.AttributeID, "", userInfor[0], userInfor[1], ActionType.Create, "");
+            var status = GetResponseStatus();
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID,
+                "", userInfor[0], userInfor[1], ActionType.UpdateAttribute, status);
 
             return new JsonResult(new { result });
         }
@@ -56,15 +72,17 @@ namespace IoTPlatform.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveClientAttribute(string id)
         {
-            var removeClientAttribute = await _clientAttributeService.FindClientAttributeByIdAsync(id);
-            if (removeClientAttribute == null)
+            var obj = await _clientAttributeService.FindClientAttributeByIdAsync(id);
+            if (obj == null)
             {
                 return NotFound();
             }
 
             var userInfor = _userService.GetUserInformation();
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.ClientAttribute, removeClientAttribute.AttributeID, "", userInfor[0], userInfor[1], ActionType.Delete, "");
-            
+            var status = GetResponseStatus();
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, obj.DeviceID,
+                "", userInfor[0], userInfor[1], ActionType.DeleteAttribute, status);
+
             var result = await _clientAttributeService.RemoveClientAttributeAsync(id);
             return new JsonResult(new { result });
         }
