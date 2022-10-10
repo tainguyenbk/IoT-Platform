@@ -12,11 +12,27 @@ namespace IoTPlatform.Domain.Models.AuditLogs
     {
         [Description("Create")]
         Create,
-        [Description("Read")]
-        Read,
         [Description("Update")]
         Update,
         [Description("Delete")]
         Delete,
+        [Description("Make public")]
+        MakePublic,
+        [Description("Make private")]
+        MakePrivate,
+        [Description("Assign to Customer")]
+        AssignCustomer,
+        [Description("Unassign to Customer")]
+        UnAssignCustomer,
+        [Description("Make default")]
+        MakeDefault,
+        [Description("Make root")]
+        MakeRoot,
+        [Description("Create Attribute")]
+        CreateAttribute,
+        [Description("Update Attribute")]
+        UpdateAttribute,
+        [Description("Delete Attribute")]
+        DeleteAttribute,
     }
 }
