@@ -91,12 +91,11 @@ namespace IoTPlatform.API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateDevice(string id, Device device)
         {
-            var obj = await _deviceService.FindDeviceByIdAsync(id);
-            if (obj == null)
+            var result = await _deviceService.UpdateDeviceAsync(id, device);
+            if (result == null)
             {
                 return NotFound();
             }
-            var result = await _deviceService.UpdateDeviceAsync(id, device);
 
             var userInfor = _userService.GetUserInformation();
             var status = GetResponseStatus();
@@ -166,6 +165,11 @@ namespace IoTPlatform.API.Controllers
             {
                 return NotFound();
             }
+
+            var userInfor = _userService.GetUserInformation();
+            var status = GetResponseStatus();
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID,
+                result.DeviceName, userInfor[0], userInfor[1], ActionType.MakePublic, status);
             return new JsonResult(new { result });
         }
 
@@ -177,6 +181,12 @@ namespace IoTPlatform.API.Controllers
             {
                 return NotFound();
             }
+
+            var userInfor = _userService.GetUserInformation();
+            var status = GetResponseStatus();
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID,
+                result.DeviceName, userInfor[0], userInfor[1], ActionType.MakePrivate, status);
+
             return new JsonResult(new { result });
         }
 
@@ -188,6 +198,10 @@ namespace IoTPlatform.API.Controllers
             {
                 return NotFound();
             }
+            var userInfor = _userService.GetUserInformation();
+            var status = GetResponseStatus();
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID,
+                result.DeviceName, userInfor[0], userInfor[1], ActionType.AssignCustomer, status);
             return new JsonResult(new { result });
         }
 
@@ -199,6 +213,12 @@ namespace IoTPlatform.API.Controllers
             {
                 return NotFound();
             }
+
+            var userInfor = _userService.GetUserInformation();
+            var status = GetResponseStatus();
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID,
+                result.DeviceName, userInfor[0], userInfor[1], ActionType.UnAssignCustomer, status);
+
             return new JsonResult(new { result });
         }
     }
