@@ -4,6 +4,8 @@ using IoTPlatform.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace IoTPlatform.API.Controllers
 {
@@ -23,7 +25,7 @@ namespace IoTPlatform.API.Controllers
             _auditLogService = auditLogService;
         }
 
-        private string getResponseStatus()
+        private string GetResponseStatus()
         {
             string status;
             if (Response.StatusCode == 200)
@@ -44,12 +46,13 @@ namespace IoTPlatform.API.Controllers
             var result = await _deviceService.AddDeviceAsync(device);
 
             var userInfor = _userService.GetUserInformation();
-            var status = getResponseStatus();
+            var status = GetResponseStatus();
 
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID,
                 result.DeviceName, userInfor[0], userInfor[1], ActionType.Create, status);
 
             return new JsonResult(new { result });
+         
         }
 
         [HttpGet]
@@ -96,7 +99,7 @@ namespace IoTPlatform.API.Controllers
             var result = await _deviceService.UpdateDeviceAsync(id, device);
 
             var userInfor = _userService.GetUserInformation();
-            var status = getResponseStatus();
+            var status = GetResponseStatus();
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, result.DeviceID,
                 result.DeviceName, userInfor[0], userInfor[1], ActionType.Update, status);
 
@@ -114,7 +117,7 @@ namespace IoTPlatform.API.Controllers
             }
 
             var userInfor = _userService.GetUserInformation();
-            var status = getResponseStatus();
+            var status = GetResponseStatus();
             await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Device, obj.DeviceID,
                 obj.DeviceName, userInfor[0], userInfor[1], ActionType.Delete, status);
 
