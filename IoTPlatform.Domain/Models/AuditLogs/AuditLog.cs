@@ -3,6 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.IdGenerators;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,14 +31,24 @@ namespace IoTPlatform.Domain.Models.AuditLogs
         {
             TimeStamp = timeStamp;
             EntityType = entityType;
-            EntityTypeName = entityType.ToString();
+            EntityTypeName = GetEnumDescription(entityType);
             EntityID = entityID;
             EntityName = entityName;
             UserName = userName;
             UserID = userID;
             ActionType = actionType;
-            ActionTypeName = actionType.ToString();
+            ActionTypeName = GetEnumDescription(actionType);
             Status = status;
+        }
+
+        public static string GetEnumDescription(Enum enumValue)
+        {
+            var fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
+
+            var descriptionAttributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
+
+            return descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : enumValue.ToString();
         }
     }
 }
+
