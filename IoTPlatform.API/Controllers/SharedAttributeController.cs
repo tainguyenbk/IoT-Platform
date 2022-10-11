@@ -2,6 +2,7 @@
 using IoTPlatform.Domain.Models.AuditLogs;
 using IoTPlatform.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 
 namespace IoTPlatform.API.Controllers
 {
@@ -12,7 +13,7 @@ namespace IoTPlatform.API.Controllers
         private readonly ISharedAttributeService _sharedAttributeService;
         private readonly IUserService _userService;
         private readonly IAuditLogService _auditLogService;
-
+        private const string inValidID = "Shared Attribute ID provided is not a valid ID";
         public SharedAttributeController(ISharedAttributeService sharedAttributeService, IUserService userService, IAuditLogService auditLogService)
         {
             _sharedAttributeService = sharedAttributeService;
@@ -61,6 +62,12 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> FindSharedAttributeByID(string id)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _sharedAttributeService.FindSharedAttributeByIdAsync(id);
             if (result == null)
             {
@@ -72,7 +79,17 @@ namespace IoTPlatform.API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateSharedAttribute(string id, SharedAttribute sharedAttribute)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+
+            }
             var result = await _sharedAttributeService.UpdateSharedAttributeAsync(id, sharedAttribute);
+            if (result == null)
+            {
+                return NotFound();
+            }
 
             var userInfor = _userService.GetUserInformation();
             var status = GetResponseStatus();
@@ -84,7 +101,13 @@ namespace IoTPlatform.API.Controllers
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveSharedAttribute(string id)
-        {             
+        {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var obj = await _sharedAttributeService.FindSharedAttributeByIdAsync(id);
             if (obj == null)
             {
@@ -103,7 +126,18 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{deviceID}")]
         public async Task<ActionResult> FindSharedAttributeByDeviceID(string deviceID)
         {
+            var isValid = ObjectId.TryParse(deviceID, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _sharedAttributeService.FindSharedAttributeByDeviceIDAsync(deviceID);
+            if (!result.Any())
+            {
+                return NotFound();
+            }
+
             return new JsonResult(new { result });
         }
     }

@@ -2,6 +2,7 @@
 using IoTPlatform.Domain.Models.Customers;
 using IoTPlatform.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 
 namespace IoTPlatform.API.Controllers
 {
@@ -12,6 +13,7 @@ namespace IoTPlatform.API.Controllers
         private readonly ICustomerService _customerService;
         private readonly IUserService _userService;
         private readonly IAuditLogService _auditLogService;
+        private const string inValidID = "Customer ID provided is not a valid ID";
 
         public CustomerController(ICustomerService customerService, IUserService userService, IAuditLogService auditLogService)
         {
@@ -60,6 +62,12 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> FindCustomerByID(string id)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _customerService.FindCustomerByIdAsync(id);
             if (result == null)
             {
@@ -71,6 +79,12 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> FindCustomerDetailByID(string id)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _customerService.FindCustomerDetailByIdAsync(id);
             if (result == null)
             {
@@ -83,13 +97,17 @@ namespace IoTPlatform.API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateCustomer(string id, Customer customer)
         {
-            var obj = await _customerService.FindCustomerByIdAsync(id);
-            if (obj == null)
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
             {
-                return NotFound();
+                return BadRequest(inValidID);
             }
 
             var result = await _customerService.UpdateCustomerAsync(id, customer);
+            if(result == null)
+            {
+                return NotFound();
+            }
 
             var userInfor = _userService.GetUserInformation();
             var status = GetResponseStatus();
@@ -101,6 +119,12 @@ namespace IoTPlatform.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveCustomer(string id)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var obj = await _customerService.FindCustomerByIdAsync(id);
             if (obj == null)
             {

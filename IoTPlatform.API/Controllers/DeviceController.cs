@@ -4,6 +4,7 @@ using IoTPlatform.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using System.ComponentModel;
 using System.Reflection;
 
@@ -17,6 +18,7 @@ namespace IoTPlatform.API.Controllers
         private readonly IDeviceService _deviceService;
         private readonly IUserService _userService;
         private readonly IAuditLogService _auditLogService;
+        private const string inValidID = "Device ID provided is not a valid ID";
 
         public DeviceController(IDeviceService deviceService, IAuditLogService auditLogService, IUserService userService)
         {
@@ -42,7 +44,6 @@ namespace IoTPlatform.API.Controllers
         [HttpPost]
         public async Task<ActionResult> AddDevice(Device device)
         {
-            string responseStatus;
             var result = await _deviceService.AddDeviceAsync(device);
 
             var userInfor = _userService.GetUserInformation();
@@ -69,6 +70,12 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> FindDeviceByID(string id)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _deviceService.FindDeviceByIdAsync(id);
             if (result == null)
             {
@@ -80,6 +87,12 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> FindDeviceDetailByID(string id)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _deviceService.FindDeviceDetailByIDAsync(id);
             if (result == null)
             {
@@ -91,6 +104,12 @@ namespace IoTPlatform.API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateDevice(string id, Device device)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _deviceService.UpdateDeviceAsync(id, device);
             if (result == null)
             {
@@ -109,6 +128,12 @@ namespace IoTPlatform.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveDevice(string id)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var obj = await _deviceService.FindDeviceByIdAsync(id);
             if (obj == null)
             {
@@ -138,6 +163,12 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{deviceProfileID}")]
         public async Task<ActionResult> FindDeviceByDeviceProfileID(string deviceProfileID)
         {
+            var isValid = ObjectId.TryParse(deviceProfileID, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _deviceService.FindDeviceByDeviceProfileIDAsync(deviceProfileID);
             if (!result.Any())
             {
@@ -149,6 +180,12 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{customerID}")]
         public async Task<ActionResult> FindDeviceByCustomerID(string customerID)
         {
+            var isValid = ObjectId.TryParse(customerID, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _deviceService.FindDeviceByCustomerIDAsync(customerID);
             if (!result.Any())
             {
@@ -160,6 +197,12 @@ namespace IoTPlatform.API.Controllers
         [HttpPost("{id}")]
         public async Task<ActionResult> MakeDevicePublic(string id)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _deviceService.MakeDevicePublicAsync(id);
             if (result == null)
             {
@@ -176,6 +219,12 @@ namespace IoTPlatform.API.Controllers
         [HttpPost("{id}")]
         public async Task<ActionResult> MakeDevicePrivate(string id)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _deviceService.MakeDevicePrivateAysnc(id);
             if (result == null)
             {
@@ -193,6 +242,12 @@ namespace IoTPlatform.API.Controllers
         [HttpPost("{id}&&{customerID}")]
         public async Task<ActionResult> AssignDeviceToCustomer(string id, string customerID)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _deviceService.AssignDeviceToCustomerAsync(id, customerID);
             if (result == null)
             {
@@ -208,6 +263,12 @@ namespace IoTPlatform.API.Controllers
         [HttpPost("{id}")]
         public async Task<ActionResult> UnAssignDeviceToCustomer(string id)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+
+            }
             var result = await _deviceService.UnAssignDeviceToCustomerAsync(id);
             if (result == null)
             {
