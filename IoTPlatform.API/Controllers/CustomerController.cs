@@ -20,13 +20,28 @@ namespace IoTPlatform.API.Controllers
             _auditLogService = auditLogService;
         }
 
+        private string GetResponseStatus()
+        {
+            string status;
+            if (Response.StatusCode == 200)
+            {
+                status = "Success";
+            }
+            else
+            {
+                status = "Failure";
+            }
+            return status;
+        }
+
         [HttpPost]
         public async Task<ActionResult> AddCustomer(Customer customer)
         {
             var result = await _customerService.AddCustomerAsync(customer);
 
             var userInfor = _userService.GetUserInformation();
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Custormer, result.CustomerID, result.Title, userInfor[0], userInfor[1], ActionType.Create);
+            var status = GetResponseStatus();
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Custormer, result.CustomerID, result.Title, userInfor[0], userInfor[1], ActionType.Create, status);
 
             return new JsonResult(new { result });
         }
@@ -77,7 +92,8 @@ namespace IoTPlatform.API.Controllers
             var result = await _customerService.UpdateCustomerAsync(id, customer);
 
             var userInfor = _userService.GetUserInformation();
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Custormer, result.CustomerID, result.Title, userInfor[0], userInfor[1], ActionType.Update);
+            var status = GetResponseStatus();
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Custormer, result.CustomerID, result.Title, userInfor[0], userInfor[1], ActionType.Update, status);
 
             return new JsonResult(new { result });
         }
@@ -92,7 +108,8 @@ namespace IoTPlatform.API.Controllers
             }
 
             var userInfor = _userService.GetUserInformation();
-            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Custormer, obj.CustomerID, obj.Title, userInfor[0], userInfor[1], ActionType.Delete);
+            var status = GetResponseStatus();
+            await _auditLogService.AddAnAuditLogAsync(DateTime.Now, EntityType.Custormer, obj.CustomerID, obj.Title, userInfor[0], userInfor[1], ActionType.Delete, status);
             
             var result = await _customerService.RemoveCustomerAsync(id);
             return new JsonResult(new { result });
