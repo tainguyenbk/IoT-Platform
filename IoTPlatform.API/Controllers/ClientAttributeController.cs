@@ -2,6 +2,7 @@
 using IoTPlatform.Domain.Models.AuditLogs;
 using IoTPlatform.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 
 namespace IoTPlatform.API.Controllers
 {
@@ -12,6 +13,7 @@ namespace IoTPlatform.API.Controllers
         private readonly IClientAttributeService _clientAttributeService;
         private readonly IUserService _userService;
         private readonly IAuditLogService _auditLogService;
+        private const string inValidID = "Audit Log ID provided is not a valid ID";
 
         public ClientAttributeController(IClientAttributeService clientAttributeService, IUserService userService, IAuditLogService auditLogService)
         {
@@ -38,7 +40,7 @@ namespace IoTPlatform.API.Controllers
         public async Task<ActionResult> GetAllClientAttributes()
         {
             var result = await _clientAttributeService.GetAllClientAttributesAsync();
-            if (result.Count() == 0)
+            if (!result.Any())
             {
                 return NotFound();
             }
@@ -48,6 +50,12 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> FindClientAttributeByID(string id)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _clientAttributeService.FindClientAttributeByIdAsync(id);
             if (result == null)
             {
@@ -59,7 +67,16 @@ namespace IoTPlatform.API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateClientAttribute(string id, ClientAttribute clientAttribute)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
             var result = await _clientAttributeService.UpdateClientAttributeAsync(id, clientAttribute);
+            if (result == null)
+            {
+                return NotFound();
+            }
 
             var userInfor = _userService.GetUserInformation();
             var status = GetResponseStatus();
@@ -72,6 +89,11 @@ namespace IoTPlatform.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveClientAttribute(string id)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
             var obj = await _clientAttributeService.FindClientAttributeByIdAsync(id);
             if (obj == null)
             {
@@ -90,6 +112,11 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{deviceID}")]
         public async Task<ActionResult> FindClientAttributeByDeviceID(string deviceID)
         {
+            var isValid = ObjectId.TryParse(deviceID, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
             var result = await _clientAttributeService.FindClientAttributeByDeviceIDAsync(deviceID);
             return new JsonResult(new { result });
         }

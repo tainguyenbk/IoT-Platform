@@ -2,6 +2,7 @@
 using IoTPlatform.Domain.Models.RuleChains;
 using IoTPlatform.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 
 namespace IoTPlatform.API.Controllers
 {
@@ -12,7 +13,7 @@ namespace IoTPlatform.API.Controllers
         private readonly IRuleChainService _ruleChainService;
         private readonly IUserService _userService;
         private readonly IAuditLogService _auditLogService;
-
+        private const string inValidID = "Rule Chain ID provided is not a valid ID";
         public RuleChainController(IRuleChainService ruleChainService, IUserService userService, IAuditLogService auditLogService)
         {
             _ruleChainService = ruleChainService;
@@ -61,6 +62,12 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> FindRuleChainByID(string id)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _ruleChainService.FindRuleChainByIdAsync(id);
             if (result == null)
             {
@@ -72,6 +79,12 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> FindRuleChainDetailByID(string id)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _ruleChainService.FindRuleChainDetailByIdAsync(id);
             if (result == null)
             {
@@ -83,12 +96,17 @@ namespace IoTPlatform.API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateRuleChain(string id, RuleChain ruleChain)
         {
-            var obj = await _ruleChainService.FindRuleChainByIdAsync(id);
-            if (obj == null)
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
+            var result = await _ruleChainService.UpdateRuleChainAsync(id, ruleChain);
+            if (result == null)
             {
                 return NotFound();
-            }
-            var result = await _ruleChainService.UpdateRuleChainAsync(id, ruleChain);
+            }    
 
             var userInfor = _userService.GetUserInformation();
             var status = GetResponseStatus();
@@ -100,7 +118,13 @@ namespace IoTPlatform.API.Controllers
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveRuleChain(string id)
-        { 
+        {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var obj = await _ruleChainService.FindRuleChainByIdAsync(id);
             if (obj == null)
             {
@@ -130,12 +154,17 @@ namespace IoTPlatform.API.Controllers
         [HttpPost("{id}")]
         public async Task<ActionResult> MakeRuleChainRoot(string id)
         {
-            var obj = await _ruleChainService.FindRuleChainByIdAsync(id);
-            if (obj == null)
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
+            var result = await _ruleChainService.MakeRuleChainRootAsync(id);
+            if (result == null)
             {
                 return NotFound();
             }
-            var result = await _ruleChainService.MakeRuleChainRootAsync(id);
 
             var userInfor = _userService.GetUserInformation();
             var status = GetResponseStatus();

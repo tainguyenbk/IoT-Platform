@@ -2,6 +2,7 @@
 using IoTPlatform.Domain.Models.AuditLogs;
 using IoTPlatform.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 
 namespace IoTPlatform.API.Controllers
 {
@@ -12,6 +13,7 @@ namespace IoTPlatform.API.Controllers
         private readonly IServerAttributeService _serverAttributeService;
         private readonly IUserService _userService;
         private readonly IAuditLogService _auditLogService;
+        private const string inValidID = "Server Attribute ID provided is not a valid ID";
         public ServerAttributeController(IServerAttributeService serverAttributeService, IUserService userService, IAuditLogService auditLogService)
         {
             _serverAttributeService = serverAttributeService;
@@ -60,6 +62,12 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> FindServerAttributeByID(string id)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _serverAttributeService.FindServerAttributeByIdAsync(id);
             if (result == null)
             {
@@ -71,7 +79,17 @@ namespace IoTPlatform.API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateServerAttribute(string id, ServerAttribute serverAttribute)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _serverAttributeService.UpdateServerAttributeAsync(id, serverAttribute);
+            if (result == null)
+            {
+                return NotFound();
+            }
 
             var userInfor = _userService.GetUserInformation();
             var status = GetResponseStatus();
@@ -83,7 +101,13 @@ namespace IoTPlatform.API.Controllers
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveServerAttribute(string id)
-        {   
+        {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var obj = await _serverAttributeService.FindServerAttributeByIdAsync(id);
             if (obj == null)
             {
@@ -102,7 +126,18 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{deviceID}")]
         public async Task<ActionResult> FindServerAttributeByDeviceID(string deviceID)
         {
+            var isValid = ObjectId.TryParse(deviceID, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _serverAttributeService.FindServerAttributeByDeviceIDAsync(deviceID);
+            if (!result.Any())
+            {
+                return NotFound();
+            }
+
             return new JsonResult(new { result });
         }
     }

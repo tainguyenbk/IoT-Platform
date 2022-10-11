@@ -2,6 +2,7 @@
 using IoTPlatform.Domain.Models.Telemetries;
 using IoTPlatform.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 
 namespace IoTPlatform.API.Controllers
 {
@@ -10,6 +11,7 @@ namespace IoTPlatform.API.Controllers
     public class TelemetryController : ControllerBase
     {
         private readonly ITelemetryService _telemetryService;
+        private const string inValidID = "Telemetry ID provided is not a valid ID";
 
         public TelemetryController(ITelemetryService telemetryService)
         {
@@ -27,7 +29,7 @@ namespace IoTPlatform.API.Controllers
         public async Task<ActionResult> GetAllTelemetrys()
         {
             var result = await _telemetryService.GetAllTelemetrysAsync();
-            if (result.Count() == 0)
+            if (!result.Any())
             {
                 return NotFound();
             }
@@ -37,6 +39,12 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> FindTelemetryByID(string id)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _telemetryService.FindTelemetryByIdAsync(id);
             if (result == null)
             {
@@ -48,13 +56,30 @@ namespace IoTPlatform.API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateTelemetry(string id, Telemetry telemetry)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _telemetryService.UpdateTelemetryAsync(id, telemetry);
+            if (result == null)
+            {
+                return NotFound();
+            }
+                
             return new JsonResult(new { result });
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveTelemetry(string id)
-        { 
+        {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var obj = await _telemetryService.FindTelemetryByIdAsync(id);
             if (obj == null)
             {
@@ -67,7 +92,18 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{deviceID}")]
         public async Task<ActionResult> FindTelemetryByDeviceID(string deviceID)
         {
+            var isValid = ObjectId.TryParse(deviceID, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _telemetryService.FindTelemetryByDeviceIDAsync(deviceID);
+            if (result == null)
+            {
+                return NotFound();
+            }
+
             return new JsonResult(new { result });
         }
     }

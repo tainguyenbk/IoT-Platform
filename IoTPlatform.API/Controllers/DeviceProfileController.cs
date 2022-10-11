@@ -2,6 +2,7 @@
 using IoTPlatform.Domain.Models.DeviceProfiles;
 using IoTPlatform.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 
 namespace IoTPlatform.API.Controllers
 {
@@ -13,6 +14,7 @@ namespace IoTPlatform.API.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IUserService _userService;
         private readonly IAuditLogService _auditLogService;
+        private const string inValidID = "Device Profile ID provided is not a valid ID";
 
         public DeviceProfileController(IDeviceProfileService deviceProfileService, IWebHostEnvironment webHostEnvironment, IUserService userService, IAuditLogService auditLogService)
         {
@@ -63,6 +65,12 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> FindDeviceProfileByID(string id)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _deviceProfileService.FindDeviceProfileByIdAsync(id);
             if (result == null)
             {
@@ -74,6 +82,12 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> FindDeviceProfileDetailByID(string id)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _deviceProfileService.FindDeviceProfileDetailByIdAsync(id);
             if (result == null)
             {
@@ -85,13 +99,17 @@ namespace IoTPlatform.API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateDeviceProfile(string id, DeviceProfile deviceProfile)
         {
-            var obj = await _deviceProfileService.FindDeviceProfileByIdAsync(id);
-            if (obj == null)
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
             {
-                return NotFound();
+                return BadRequest(inValidID);
             }
 
             var result = await _deviceProfileService.UpdateDeviceProfleAsync(id, deviceProfile);
+            if (result == null)
+            {
+                return NotFound();
+            }    
 
             var userInfor = _userService.GetUserInformation();
             var status = GetResponseStatus();
@@ -104,6 +122,12 @@ namespace IoTPlatform.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveDeviceProfile(string id)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var obj = await _deviceProfileService.FindDeviceProfileByIdAsync(id);
             if (obj == null)
             {
@@ -133,6 +157,12 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{ruleChainID}")]
         public async Task<ActionResult> FindDeviceProfileByRuleChainID(string ruleChainID)
         {
+            var isValid = ObjectId.TryParse(ruleChainID, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var result = await _deviceProfileService.FindDeviceProifleByRuleChainIDAsync(ruleChainID);
             if (!result.Any())
             {
@@ -144,6 +174,12 @@ namespace IoTPlatform.API.Controllers
         [HttpPost]
         public async Task<ActionResult> UploadDeviceProfileImage(string id, List<IFormFile> files)
         {
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
+            {
+                return BadRequest(inValidID);
+            }
+
             var images = new List<DeviceProfileImage>();
             string fileFolder = @"Files\Images\";
 
@@ -183,13 +219,17 @@ namespace IoTPlatform.API.Controllers
         [HttpPost("{id}")]
         public async Task<ActionResult> MakeDeviceProfileDefault(string id)
         {
-            var obj = await _deviceProfileService.FindDeviceProfileByIdAsync(id);
-            if (obj == null)
+            var isValid = ObjectId.TryParse(id, out _);
+            if (!isValid)
             {
-                return NotFound();
+                return BadRequest(inValidID);
             }
 
             var result = await _deviceProfileService.MakeDeviceProfileDefaultAsync(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
 
             var userInfor = _userService.GetUserInformation();
             var status = GetResponseStatus();
