@@ -59,11 +59,12 @@ namespace IoTPlatform.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAllDevices()
         {
-            var result = await _deviceService.GetAllDevicesAsync();
-            if (!result.Any())
+            var listDevice = await _deviceService.GetAllDevicesAsync();
+            if (!listDevice.Any())
             {
                 return NotFound();
             }
+            var result = listDevice.OrderByDescending(o => o.Device.CreatedTime);
             return new JsonResult(new { result });
         }
 
@@ -152,11 +153,12 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{name}")]
         public async Task<ActionResult> FindDeviceByName(string name)
         {
-            var result = await _deviceService.FindDeviceByNameAsync(name);
-            if (!result.Any())
+            var listDevice = await _deviceService.FindDeviceByNameAsync(name);
+            if (!listDevice.Any())
             {
                 return NotFound();
             }
+            var result = listDevice.OrderByDescending(o => o.CreatedTime);
             return new JsonResult(new { result });
         }
 
@@ -169,11 +171,13 @@ namespace IoTPlatform.API.Controllers
                 return BadRequest(inValidID);
             }
 
-            var result = await _deviceService.FindDeviceByDeviceProfileIDAsync(deviceProfileID);
-            if (!result.Any())
+            var listDevice = await _deviceService.FindDeviceByDeviceProfileIDAsync(deviceProfileID);
+            if (!listDevice.Any())
             {
                 return NotFound();
             }
+
+            var result = listDevice.OrderByDescending(o => o.CreatedTime);
             return new JsonResult(new { result });
         }
 
@@ -186,11 +190,13 @@ namespace IoTPlatform.API.Controllers
                 return BadRequest(inValidID);
             }
 
-            var result = await _deviceService.FindDeviceByCustomerIDAsync(customerID);
-            if (!result.Any())
+            var listDevice = await _deviceService.FindDeviceByCustomerIDAsync(customerID);
+            if (!listDevice.Any())
             {
                 return NotFound();
             }
+
+            var result = listDevice.OrderByDescending(o => o.CreatedTime);
             return new JsonResult(new { result });
         }
 

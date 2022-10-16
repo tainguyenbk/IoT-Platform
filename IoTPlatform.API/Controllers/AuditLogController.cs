@@ -19,11 +19,13 @@ namespace IoTPlatform.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAllAuditLogs()
         {
-            var result = await _auditLogService.GetAllAuditLogs();
-            if (!result.Any())
+            var listAuditLog = await _auditLogService.GetAllAuditLogs();
+            if (!listAuditLog.Any())
             {
                 return NotFound();
             }
+
+            var result = listAuditLog.OrderByDescending(o => o.TimeStamp);
             return new JsonResult(new { result });
         }
 
@@ -48,11 +50,13 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{entityType}")]
         public async Task<ActionResult> FindAuditLogByEntityTypeName(string entityType)
         {
-            var result = await _auditLogService.FindAuditLogByEntityTypeNameAsync(entityType);
-            if (!result.Any())
+            var listAuditLog = await _auditLogService.FindAuditLogByEntityTypeNameAsync(entityType);
+            if (!listAuditLog.Any())
             {
                 return NotFound();
             }
+
+            var result = listAuditLog.OrderByDescending(o => o.TimeStamp);
             return new JsonResult(new { result });
         }
 
@@ -60,11 +64,13 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{userName}")]
         public async Task<ActionResult> FindAuditLogByUserName(string userName)
         {
-            var result = await _auditLogService.FindAuditLogByUserNameAsync(userName);
-            if (!result.Any())
+            var listAuditLog = await _auditLogService.FindAuditLogByUserNameAsync(userName);
+            if (!listAuditLog.Any())
             {
                 return NotFound();
             }
+
+            var result = listAuditLog.OrderByDescending(o => o.TimeStamp);
             return new JsonResult(new { result });
         }
 
@@ -72,22 +78,26 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{startTime}&&{endTime}")]
         public async Task<ActionResult> FindAuditLogInPeriodTime(DateTime startTime, DateTime endTime)
         {
-            var result = await _auditLogService.FindAuditLogInPeriodTimeAsync(startTime, endTime);
-            if (!result.Any())
+            var listAuditLog = await _auditLogService.FindAuditLogInPeriodTimeAsync(startTime, endTime);
+            if (!listAuditLog.Any())
             {
                 return NotFound();
             }
+
+            var result = listAuditLog.OrderByDescending(o => o.TimeStamp);
             return new JsonResult(new { result });
         }
 
         [HttpGet]
         public async Task<ActionResult> FindAuditLogs(string? auditLogID, string? entityTypeName, string? userName, DateTime? startTime, DateTime? endTime)
         {
-            var result = await _auditLogService.FindAuditLogsAsync(auditLogID, entityTypeName, userName, startTime, endTime);
-            if (!result.Any())
+            var listAuditLog = await _auditLogService.FindAuditLogsAsync(auditLogID, entityTypeName, userName, startTime, endTime);
+            if (!listAuditLog.Any())
             {
                 return NotFound();
             }
+
+            var result = listAuditLog.OrderByDescending(o => o.TimeStamp);
             return new JsonResult(new { result });
         }
     }
