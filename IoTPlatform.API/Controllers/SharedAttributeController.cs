@@ -51,11 +51,13 @@ namespace IoTPlatform.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAllSharedAttributes()
         {
-            var result = await _sharedAttributeService.GetAllSharedAttributesAsync();
-            if (result.Count() == 0)
+            var listAttribute = await _sharedAttributeService.GetAllSharedAttributesAsync();
+            if (!listAttribute.Any())
             {
                 return NotFound();
             }
+
+            var result = listAttribute.OrderByDescending(o => o.LastUpdateTime);
             return new JsonResult(new { result });
         }
 
@@ -132,12 +134,13 @@ namespace IoTPlatform.API.Controllers
                 return BadRequest(inValidID);
             }
 
-            var result = await _sharedAttributeService.FindSharedAttributeByDeviceIDAsync(deviceID);
-            if (!result.Any())
+            var listAttribute = await _sharedAttributeService.FindSharedAttributeByDeviceIDAsync(deviceID);
+            if (!listAttribute.Any())
             {
                 return NotFound();
             }
 
+            var result = listAttribute.OrderByDescending(o => o.LastUpdateTime);
             return new JsonResult(new { result });
         }
     }

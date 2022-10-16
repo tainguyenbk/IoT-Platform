@@ -54,11 +54,13 @@ namespace IoTPlatform.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAllDeviceProfiles()
         {
-            var result = await _deviceProfileService.GetAllDeviceProfilesAsync();
-            if (!result.Any())
+            var listDeviceProfile = await _deviceProfileService.GetAllDeviceProfilesAsync();
+            if (!listDeviceProfile.Any())
             {
                 return NotFound();
             }
+
+            var result = listDeviceProfile.OrderByDescending(o => o.DeviceProfile.CreatedTime);
             return new JsonResult(new { result });
         }
 
@@ -146,11 +148,13 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{name}")]
         public async Task<ActionResult> FindDeviceProfileByName(string name)
         {
-            var result = await _deviceProfileService.FindDeviceProfileByNameAsync(name);
-            if (!result.Any())
+            var listDeviceProfile = await _deviceProfileService.FindDeviceProfileByNameAsync(name);
+            if (!listDeviceProfile.Any())
             {
                 return NotFound();
-            }    
+            }
+
+            var result = listDeviceProfile.OrderByDescending(o => o.CreatedTime);
             return new JsonResult(new { result });
         }
 
@@ -163,11 +167,13 @@ namespace IoTPlatform.API.Controllers
                 return BadRequest(inValidID);
             }
 
-            var result = await _deviceProfileService.FindDeviceProifleByRuleChainIDAsync(ruleChainID);
-            if (!result.Any())
+            var listDeviceProfile = await _deviceProfileService.FindDeviceProifleByRuleChainIDAsync(ruleChainID);
+            if (!listDeviceProfile.Any())
             {
                 return NotFound();
             }
+
+            var result = listDeviceProfile.OrderByDescending(o => o.CreatedTime);
             return new JsonResult(new { result });
         }
 

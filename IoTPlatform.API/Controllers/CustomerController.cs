@@ -51,11 +51,13 @@ namespace IoTPlatform.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAllCustomers()
         {
-            var result = await _customerService.GetAllCustomersAsync();
-            if (!result.Any())
+            var listCustomer = await _customerService.GetAllCustomersAsync();
+            if (!listCustomer.Any())
             {
                 return NotFound();
             }
+
+            var result = listCustomer.OrderByDescending(o => o.Customer.CreatedTime);
             return new JsonResult(new { result });
         }
 
@@ -142,11 +144,13 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{title}")]
         public async Task<ActionResult> FindCustomerByName(string title)
         {
-            var result = await _customerService.FindCustomerByTitleAsync(title);
-            if (!result.Any())
+            var listCustomer = await _customerService.FindCustomerByTitleAsync(title);
+            if (!listCustomer.Any())
             {
                 return NotFound();
             }
+
+            var result = listCustomer.OrderByDescending(o => o.CreatedTime);
             return new JsonResult(new { result });
         }
     }

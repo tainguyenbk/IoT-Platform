@@ -51,11 +51,13 @@ namespace IoTPlatform.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAllRuleChains()
         {
-            var result = await _ruleChainService.GetAllRuleChainsAsync();
-            if (!result.Any())
+            var listRuleChain = await _ruleChainService.GetAllRuleChainsAsync();
+            if (!listRuleChain.Any())
             {
                 return NotFound();
             }
+
+            var result = listRuleChain.OrderByDescending(o => o.RuleChain.CreatedTime);
             return new JsonResult(new { result });
         }
 
@@ -143,11 +145,13 @@ namespace IoTPlatform.API.Controllers
         [HttpGet("{name}")]
         public async Task<ActionResult> FindRuleChainByName(string name)
         {
-            var result = await _ruleChainService.FindRuleChainByNameAsync(name);
-            if (!result.Any())
+            var listRuleChain = await _ruleChainService.FindRuleChainByNameAsync(name);
+            if (!listRuleChain.Any())
             {
                 return NotFound();
             }
+
+            var result = listRuleChain.OrderByDescending(o => o.CreatedTime);
             return new JsonResult(new { result });
         }
 

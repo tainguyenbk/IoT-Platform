@@ -28,11 +28,13 @@ namespace IoTPlatform.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAllTelemetrys()
         {
-            var result = await _telemetryService.GetAllTelemetrysAsync();
-            if (!result.Any())
+            var listTelemetry = await _telemetryService.GetAllTelemetrysAsync();
+            if (!listTelemetry.Any())
             {
                 return NotFound();
             }
+
+            var result = listTelemetry.OrderByDescending(o => o.LastUpdateTime);
             return new JsonResult(new { result });
         }
 
@@ -98,12 +100,13 @@ namespace IoTPlatform.API.Controllers
                 return BadRequest(inValidID);
             }
 
-            var result = await _telemetryService.FindTelemetryByDeviceIDAsync(deviceID);
-            if (result == null)
+            var listTelemetry = await _telemetryService.FindTelemetryByDeviceIDAsync(deviceID);
+            if (listTelemetry == null)
             {
                 return NotFound();
             }
 
+            var result = listTelemetry.OrderByDescending(o => o.LastUpdateTime);
             return new JsonResult(new { result });
         }
     }

@@ -39,11 +39,13 @@ namespace IoTPlatform.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAllClientAttributes()
         {
-            var result = await _clientAttributeService.GetAllClientAttributesAsync();
-            if (!result.Any())
+            var listAttribute = await _clientAttributeService.GetAllClientAttributesAsync();
+            if (!listAttribute.Any())
             {
                 return NotFound();
             }
+
+            var result = listAttribute.OrderByDescending(o => o.LastUpdateTime);
             return new JsonResult(new { result });
         }
 
@@ -117,7 +119,13 @@ namespace IoTPlatform.API.Controllers
             {
                 return BadRequest(inValidID);
             }
-            var result = await _clientAttributeService.FindClientAttributeByDeviceIDAsync(deviceID);
+            var listAttribute = await _clientAttributeService.FindClientAttributeByDeviceIDAsync(deviceID);
+            if(!listAttribute.Any())
+            {
+                return NotFound();
+            }
+
+            var result = listAttribute.OrderByDescending(o => o.LastUpdateTime);
             return new JsonResult(new { result });
         }
     }
