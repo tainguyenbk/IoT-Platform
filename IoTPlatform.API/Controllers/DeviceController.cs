@@ -1,5 +1,6 @@
 ﻿using IoTPlatform.Domain.Models.AuditLogs;
 using IoTPlatform.Domain.Models.Devices;
+using IoTPlatform.Domain.Models.Pagination;
 using IoTPlatform.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -57,15 +58,16 @@ namespace IoTPlatform.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAllDevices()
+        public async Task<ActionResult> GetAllDevices(int? pageIndex, int? pageSize)
         {
             var listDevice = await _deviceService.GetAllDevicesAsync();
             if (!listDevice.Any())
             {
                 return NotFound();
             }
-            var result = listDevice.OrderByDescending(o => o.Device.CreatedTime);
-            return new JsonResult(new { result });
+            var listSortedDevice = listDevice.OrderByDescending(o => o.Device.CreatedTime).ToList();
+            var result = PaginatedList<DeviceResponse>.ToPaginatedList(listSortedDevice, pageIndex ?? 1, pageSize ?? 10);
+            return new JsonResult(new { result, result.TotalPage, result.PageIndex });
         }
 
         [HttpGet("{id}")]

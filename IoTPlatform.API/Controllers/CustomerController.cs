@@ -75,6 +75,7 @@ namespace IoTPlatform.API.Controllers
             {
                 return NotFound();
             }
+
             return new JsonResult(new { result });
         }
 
