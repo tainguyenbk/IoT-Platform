@@ -67,7 +67,7 @@ namespace IoTPlatform.API.Controllers
             }
             var listSortedDevice = listDevice.OrderByDescending(o => o.Device.CreatedTime).ToList();
             var result = PaginatedList<DeviceResponse>.ToPaginatedList(listSortedDevice, pageIndex ?? 1, pageSize ?? 10);
-            return new JsonResult(new { result, result.TotalPage });
+            return new JsonResult(new { result, result.TotalPage, result.PageIndex });
         }
 
         [HttpGet("{id}")]

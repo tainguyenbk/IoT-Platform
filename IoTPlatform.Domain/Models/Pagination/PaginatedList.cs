@@ -22,7 +22,7 @@ namespace IoTPlatform.Domain.Models.Pagination
 
         public static PaginatedList<T> ToPaginatedList(List<T> source, int pageIndex, int pageSize)
         {
-            var count = source.Count();
+            var count = source.Count;
             // return list of elements of current page
             var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
 
